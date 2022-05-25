@@ -1,0 +1,74 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+body{
+	background: url(../../public/images/bg.jpg) no-repeat top;
+	background-attachment: fixed;
+}
+.logo{
+	text-align: center;
+	padding: 24px 0px;
+}
+.logo a{
+	display: inline-block;
+}
+
+.logo img{
+	animation-name: shadow_light;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+}
+.menu-game{
+	
+	text-align: center;
+	
+}
+.menu-game a{
+	text-decoration: none;
+	color: #ffff;
+	padding-right: 12px;
+	margin-right: 12px;
+	border-right: 2px solid #fae97e;
+	font-weight: 700;
+}
+.menu-game a:hover{
+	text-decoration: underline;
+	color: #feff88;
+}
+.menu-game a:last-child{
+	border-right: unset;
+	padding-right: unset;
+	margin-right: unset;
+}
+.other-case{
+	position: relative;
+	text-align: center;
+	display: inline-block;
+	margin: 0;
+	padding: 0px 32px;
+}
+.other-case:after{
+	content: '';
+	position: absolute;
+	left: 0;
+	width: 24px;
+	height: 1px;
+	top: 50%;
+	background: #000;
+}
+.other-case:before{
+	content: '';
+	position: absolute;
+	right: 0;
+	width: 24px;
+	height: 1px;
+	top: 50%;
+	background: #000;
+}
+@keyframes shadow_light {
+	0%   {filter: drop-shadow(0px 0px 25px #feff88);}
+	50%{filter: drop-shadow(0px 0px 0px #fecc12);}
+	100%{filter: drop-shadow(0px 0px 25px #feff88);}
+}

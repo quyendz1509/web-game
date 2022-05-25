@@ -1,0 +1,13 @@
+Client - Khách Hàng (Chưa login):
+  ☐ Đăng nhập người dùng (Tài khoản - mật khẩu)
+  ☐ Đăng ký người dùng ( Tài khoản - mật khẩu - mật khẩu xác nhận - mật khẩu cấp 2 - captcha )
+  ☐ Quên mật khẩu (Thông qua email)
+Client - Khách hàng (Login): 
+  ☐ Thông tin tài khoản 
+  ☐ Thay đổi mật khẩu
+  ☐ Nạp xu (  3 dạng xu )
+  ☐ Chuyển xu vào game
+  ☐ Chuyển tiền giữa người chơi với nhau
+  ☐ Lịch sử giao dịch
+  ☐ Gifcode (lấy tên nhân vật trong game)
+  ☐ ID người dùng mã hóa + 1992
