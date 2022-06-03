@@ -1,7 +1,7 @@
 <div class="col-lg-6 col-sm-12">
 	<div class="card mt-3">
 		<div class="card-header">
-			<h3 class="text-center"><?= $title ?></h3>
+			<h3 class="text-center text-capitalize"><?= $title ?></h3>
 		</div>
 		<div class="card-body">
 			<form action="" class="mt-3 mb-3">
@@ -19,13 +19,13 @@
 					<button class="btn btn-primary w-100">Đăng nhập ngay</button>
 				</div>
 				<div class="text-center mb-2">
-					<small>Bạn quên mật khẩu? <a href="">Lấy lại mật khẩu</a></small>
+					<small>Bạn quên mật khẩu? <a href="/index.php?ctrl=forget">Lấy lại mật khẩu</a></small>
 				</div>
 				<div class="text-center mb-2">
 					<p class="other-case m-0">Hoặc</p>
 				</div>
 				<div class="text-center">
-					<a href="" class="btn btn-sm btn-outline-success">Đăng ký tài khoản mới</a>
+					<a href="/index.php?ctrl=register" class="btn btn-sm btn-outline-success text-uppercase">Đăng ký tài khoản mới</a>
 				</div>
 			</form>
 		</div>

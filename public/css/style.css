@@ -67,6 +67,15 @@ body{
 	top: 50%;
 	background: #000;
 }
+.label-cus-left{
+	border-left: 3px solid #fecc12;
+	padding-left: 6px;
+	
+}
+.box-valid label.error{
+	color: #d82355;
+	font-size: 14px;
+}
 @keyframes shadow_light {
 	0%   {filter: drop-shadow(0px 0px 25px #feff88);}
 	50%{filter: drop-shadow(0px 0px 0px #fecc12);}

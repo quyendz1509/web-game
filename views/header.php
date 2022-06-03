@@ -9,11 +9,12 @@
 	<link rel="stylesheet" href="/public/css/style.css">
 	<!-- Css Style -->
 	<!-- JS CODE -->
-	<link rel="stylesheet" href="/public/js/bootstrap.min.js">
-	<link rel="stylesheet" href="/public/js/bootstrap.bundle.min.js">
-	<link rel="stylesheet" href="/public/js/bootbox.min.js">
-
-	<link rel="stylesheet" href="/public/js/script.js">
+	<script src="/public/js/bootstrap.min.js"></script>
+	<script src="/public/js/bootstrap.bundle.min.js"></script>
+	<script src="/public/js/bootbox.min.js"></script>
+	<script src="/public/js/jquery.min.js"></script>
+	<script src="/public/js/jqueryValidate.min.js"></script>
+	<script src="/public/js/script.js"></script>
 	<!-- JS CODE -->
 </head>
 <body data-token="<?= $_AUTH_TOKEN ?>">

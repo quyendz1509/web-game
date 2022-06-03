@@ -1,11 +1,11 @@
 <?php
-$title = 'Đăng nhập';
+$title = 'Đăng ký';
 // Thêm header
 require 'views/header.php';
 // Navbar 
 require 'views/nav-bar.php';
 // 
-require 'views/login.php';
+require 'views/register.php';
 // Thêm footer
 require 'views/footer.php';
 

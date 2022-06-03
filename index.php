@@ -9,10 +9,12 @@ require 'modules/config.php';
 require 'modules/database.php';
 // Function Main (USER FOR ALL)
 require 'modules/main.php';
+$_main = new mainClass();
 
 // Kiểm tra status Game
 
 if ($_WEB_STATUS == 0) {
+
 	// Tạo sesion web token
 	$cost = ["cost" => 12 ];
 	$_AUTH_TOKEN = password_hash($_WEB_TOKEN, PASSWORD_DEFAULT, $cost);

@@ -1,7 +1,28 @@
 <?php 
-if (isset($ctrl)) {
-	// code...
 
+// kiem tra nguoi dung
+if(!isset($_COOKIE['id'])){
+
+	if (isset($ctrl)) {
+	// code...
+		switch ($ctrl) {
+			case 'forget':
+			require 'forgetMember.php';
+			break;
+			case 'register':
+			require 'registerMember.php';
+			break;
+			default:
+			require 'loginMember.php';
+			break;
+		}
+	}else{
+		require 'loginMember.php';
+	}
+
+}else{
+	if (isset($ctrl)) {
+	// code...
 
 // Kiểm tra người dùng có tồn tại không
 		switch ($ctrl) {
@@ -20,9 +41,10 @@ if (isset($ctrl)) {
 			require 'homeController.php';
 			break;
 		}
-	
 
-}else{
-	die();
+	}else{
+		require 'homeController.php';
+	}
 }
+
 ?>

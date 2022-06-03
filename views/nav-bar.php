@@ -5,7 +5,7 @@
 		</div>
 		<div class="menu-game">
 			<a href="">Trang chủ</a>
-			<a href="">Fanpage</a>
+			<a href="<?= $_LINKS_FANPAGES ?>">Fanpage</a>
 
-			<a href="">Diễn Đàn</a>
+			<a href="<?= $_LINKS_GROUPS ?>">Diễn Đàn</a>
 		</div>
