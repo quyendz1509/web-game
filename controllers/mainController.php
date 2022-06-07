@@ -27,15 +27,15 @@ if(!isset($_COOKIE['id'])){
 // Kiểm tra người dùng có tồn tại không
 		switch ($ctrl) {
 
-	// Thông tin người dùng
-			case 'info':
-			require 'infoMember.php';
-			break;
-
+			// Đăng xuất
 			case 'logout':
 			setcookie('id', '', time() - 999999); 
 			header('location: /');
 			break;
+
+			case 'pwdchange':
+				require 'passwordChanges.php';
+				break;
 
 			default:
 			require 'homeController.php';

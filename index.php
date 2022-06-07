@@ -15,12 +15,27 @@ $_main = new mainClass();
 
 if ($_WEB_STATUS == 0) {
 
+	if (isset($_COOKIE['id'])) {
+		// check hết tất cả người dùng
+		
+				$newId = $_COOKIE['id'] - $_ID_USER_NUMBER;
+			
+		// sau khi tìm được id thích hợp thì... lấy info ra :D
+		$infoUser = $_main->userNameInfomationId($newId);
+		// nếu không tìm thấy thì cho logout :D
+		if (!$infoUser) {
+			setcookie('id', '', time() - 999999);
+			header('location: /');
+		}else{
+			$id_user_hash = $infoUser['ID'] + $_ID_USER_NUMBER;
+		}
+	}
 	// Tạo sesion web token
 	$cost = ["cost" => 12 ];
 	$_AUTH_TOKEN = password_hash($_WEB_TOKEN, PASSWORD_DEFAULT, $cost);
 	$_SESSION['web_token'] = $_AUTH_TOKEN;
 	// Dẫn tới route
-require 'route.php';
+	require 'route.php';
 
 
 }else{

@@ -5,6 +5,15 @@
  */
 class mainClass extends DATABASE
 {
+	// get info user by id
+	function userNameInfomationId($id){
+		$sql='SELECT * FROM `users` WHERE `ID` = ?';
+		return $this->pdo_query_one($sql,$id);
+	}
+	// get list user
+	function getListUser(){
+		return $this->pdo_query('SELECT * FROM `users` ORDER BY `ID` DESC');
+	}
 	// Function to get the client IP address
 	function get_client_ip() {
 		$ipaddress = '';
