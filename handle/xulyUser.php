@@ -25,18 +25,9 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 			if (!isset($_COOKIE['id'])) {
 				$json  = array('status' => -99, 'sms' => 'UNKNOWN MEMBERS');
 			}else{
-				$id = $_COOKIE['id'];
-				$_listUser = $func->getListUserAll();
-				// check hết tất cả người dùng
-				foreach ($_listUser as $key => $value) {
-					$check_id = password_verify(($value['ID'] + $_ID_USER_NUMBER), $id);
-					if ($check_id == true) {
-						$newId = $value['ID'];
-						break;
-					}
-				}
+				$id = $_COOKIE['id'] - $_ID_USER_NUMBER;
 		// sau khi tìm được id thích hợp thì... lấy info ra :D
-				$info = $func->userNameInfomationId($newId);
+				$info = $func->userNameInfomationId($id);
 				if (!$info) {
 					$json  = array('status' => -99, 'sms' => 'Không tìm thấy tài khoản người dùng');
 				}else{

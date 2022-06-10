@@ -54,10 +54,22 @@
 								</li>
 								<li class="nav-item">
 									<div class="nav-link-custom">
-										<a href="/routing?ctrl=history"><i class="las la-history"></i>Lịch sử giao dịch</a>
+										<a href="/routing?ctrl=ls-doixu"><i class="las la-history"></i>Lịch sử đổi xu</a>
 
 									</div>
 								</li>
+								<li class="nav-item">
+									<div class="nav-link-custom">
+										<a href="/routing?ctrl=ls-napxu"><i class="las la-history"></i>Lịch sử nạp xu</a>
+									</div>
+								</li>
+								<li class="nav-item">
+									<div class="nav-link-custom">
+										<a href="/routing?ctrl=ls-chuyenxu"><i class="las la-history"></i>Lịch sử chuyển xu</a>
+
+									</div>
+								</li>
+
 								<li class="nav-item">
 									<div class="nav-link-custom">
 										<a href="/routing?ctrl=giftcode"><i class="las la-gifts"></i> Nhận quà</a>

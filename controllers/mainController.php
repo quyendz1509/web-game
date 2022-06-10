@@ -1,7 +1,7 @@
 <?php 
 
 // kiem tra nguoi dung
-if(!isset($_COOKIE['id'])){
+if(!$infoUser){
 
 	if (isset($ctrl)) {
 	// code...
@@ -34,9 +34,17 @@ if(!isset($_COOKIE['id'])){
 			break;
 
 			case 'pwdchange':
-				require 'passwordChanges.php';
-				break;
-
+			require 'passwordChanges.php';
+			break;
+			case 'ls-doixu':
+			require 'historyXu.php';
+			break;
+			case 'ls-napxu':
+			require 'historyNapXu.php';
+			break;
+			case 'ls-chuyenxu':
+			require 'historyChuyenXu.php';
+			break;
 			default:
 			require 'homeController.php';
 			break;
