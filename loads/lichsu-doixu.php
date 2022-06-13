@@ -11,7 +11,13 @@ require '../modules/database.php';
 require '../modules/main.php';
 $_main = new mainClass();
 if (isset($_COOKIE['id'])) {
-	$info = $_main->userNameInfomationId($_COOKIE['id'] - $_ID_USER_NUMBER);
+	$newId = $_COOKIE['id'];
+	$idmember = $_main->checkCookieId($newId,$_ID_USER_NUMBER);
+	if ($idmember == false) {
+		$json = array('status' => 0, 'data' => 'UNKNOWN MEMBERS');
+	}else{
+		$info = $_main->userNameInfomationId($idmember);
+	}
 	if (!$info) {
 		$json = array('status' => 0, 'data' => 'UNKNOWN MEMBERS');
 

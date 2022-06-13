@@ -25,9 +25,16 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 			if (!isset($_COOKIE['id'])) {
 				$json  = array('status' => -99, 'sms' => 'UNKNOWN MEMBERS');
 			}else{
-				$id = $_COOKIE['id'] - $_ID_USER_NUMBER;
+				$newId = $_COOKIE['id'];
 		// sau khi tìm được id thích hợp thì... lấy info ra :D
-				$info = $func->userNameInfomationId($id);
+				$idmember = $func->checkCookieId($newId,$_ID_USER_NUMBER);
+		// sau khi tìm được id thích hợp thì... lấy info ra :D
+				if ($idmember == false) {
+					$json  = array('status' => -99, 'sms' => 'Không tìm thấy tài khoản người dùng');
+				}else{
+					$info = $func->userNameInfomationId($idmember);
+				}
+
 				if (!$info) {
 					$json  = array('status' => -99, 'sms' => 'Không tìm thấy tài khoản người dùng');
 				}else{

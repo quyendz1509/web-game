@@ -5,6 +5,24 @@
  */
 class authClass extends DATABASE
 {
+	function checkCookieId($id_hash,$_ID_USER_NUMBER){
+		// Lấy thông tin tất cả member (Củ chuối thế nhờ :( )
+		$sql='SELECT * FROM `users`';
+		// kết quả là gì ? 
+		$kq = $this->pdo_query($sql);
+		// Bắt đầu
+		$test = '';
+		foreach ($kq as $key => $value) {
+			if (md5( $value['ID'] + $_ID_USER_NUMBER.$value['idnumber'].$value['passwd2']  ) == $id_hash) {
+				$test = $value['ID'];
+				break;
+			}else{
+				$test = false;
+
+			}
+		}
+		return $test;
+	}
 	// check email
 	function checkEmail($email){
 		$sql='SELECT * FROM `users` WHERE `email` = ?';

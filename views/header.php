@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 	<link rel="stylesheet" href="/public/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/public/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="/public/css/dataTables.bootstrap5.min.css">
+	<link rel="stylesheet" href="/public/css/responsive.bootstrap5.min.css">
 
 	<link rel="stylesheet" href="/public/css/style.css">
 	<link rel="stylesheet" href="/public/css/responsive.css">
@@ -18,12 +20,18 @@
 	<!-- JS CODE -->
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
 
 	<script src="/public/js/jquery.min.js"></script>
 	<script src="/public/js/bootbox.min.js"></script>
 	<script src="/public/js/jqueryValidate.min.js"></script>
 	<script src="/public/js/jquery.dataTables.min.js"></script>
+	<script src="/public/js/dataTables.bootstrap5.min.js"></script>
+	<script src="/public/js/dataTables.responsive.min.js"></script>
+	<script src="/public/js/responsive.bootstrap5.min.js"></script>
+
+	<script src=""></script>
 	<script src="/public/js/script.js"></script>
 	<!-- JS CODE -->
 </head>

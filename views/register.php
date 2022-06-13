@@ -15,7 +15,7 @@
 			<form id="register-form" class="mt-3 mb-3">
 				<div class="form-group box-valid mb-3">
 					<label class="label-cus-left mb-2" for="taikhoan">Thông tin bắt buộc</label>
-					<input name="taikhoan" type="text" class="form-control" placeholder="Tài khoản" minlength="6" maxlength="16">
+					<input name="taikhoan" type="text" class="form-control" placeholder="Tài khoản" minlength="5" maxlength="16">
 				</div>
 				<div class="form-group box-valid mb-3">
 					<label class="label-cus-left mb-2" for="email">Thông tin bắt buộc</label>
@@ -69,7 +69,7 @@ $('#register-form').validate({
 	rules:{
 		"taikhoan": {
 			required: true,
-			minlength: 6,
+			minlength: 5,
 			maxlength: 16
 		},
 		"email": {
@@ -94,7 +94,7 @@ $('#register-form').validate({
 	messages:{
 		"taikhoan":{
 			required: 'Nhập tên tài khoản',
-			minlength: 'Tên tài khoản tối thiểu 6 ký tự',
+			minlength: 'Tên tài khoản tối thiểu 5 ký tự',
 			maxlength: 'Tên tài khoản tối đa 16 ký tự'
 		},
 		"email":{

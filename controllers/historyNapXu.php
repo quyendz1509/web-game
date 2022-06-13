@@ -1,5 +1,5 @@
 <?php
-$title = 'Lịch sử đổi xu';
+$title = 'Lịch sử nạp xu';
 // Thêm header
 require 'views/header.php';
 // Navbar 

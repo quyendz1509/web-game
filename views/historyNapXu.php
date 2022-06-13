@@ -3,8 +3,8 @@
 	<div class="left-title-home">
 		<h4><?= $title ?></h4>
 	</div>
-	<div class="form-right-home table-responsive-xxl">
-		<table class="table table-bordered" id="history-napxu">
+	<div class="form-right-home table-responsive">
+		<table class="table table-striped dt-responsive nowrap w-100" id="history-napxu">
 			<thead>
 				<tr>
 					<th>STT</th>
@@ -18,7 +18,7 @@
 			<tbody>
 				<?php foreach ($his_nap as $key => $value): ?>
 					<tr>
-						<th><?= $key ?></th>
+						<th><?= $key +1 ?></th>
 						<td><span class="badge bg-info"><?= $value['loaithe'] ?></span></td>	
 						<td><?= number_format($value['menhgia']) ?> đ</td>
 						<td><?= date('Y-m-d',strtotime($value['pay_time']) ) ?></td>
@@ -53,7 +53,7 @@
 <script>
 	$(document).ready(function() {
 		$('#history-napxu').dataTable({
-			order:[[0,"desc"]]
+			order:[[3,"desc"]]
 		});
 		// check click
 		$('#history-napxu .view-more').click(function(event) {
@@ -107,8 +107,8 @@
 					<li class="nav-item mb-2"><strong>Mã giao dịch:</strong> #${res_data.trans_id}</li>
 					<li class="nav-item mb-2"><strong>Số serial:</strong> ${res_data.serial} </li>
 					<li class="nav-item mb-2"><strong>Mã thẻ:</strong> ${res_data.code} </li>
-					<li class="nav-item mb-2"><strong>Mệnh giá:</strong> ${res_data.menhgia} </li>
-					<li class="nav-item mb-2"><strong>Thực nhận:</strong> ${res_data.thucnhanh} </li>
+					<li class="nav-item mb-2"><strong>Mệnh giá:</strong> ${res_data.menhgia} đ</li>
+					<li class="nav-item mb-2"><strong>Thực nhận:</strong> ${res_data.thucnhanh} đ </li>
 					<li class="nav-item mb-2"><strong>Trạng thái:</strong> <span class="badge ${class_status_dta}">${status_dta}</span> </li>
 					<li class="nav-item mb-2"><strong>Khuyến mãi:</strong> ${res_data.promote} % </li>
 					<li class="nav-item mb-2"><strong>Thời gian nhận:</strong> ${res_data.time} </li>

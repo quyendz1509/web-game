@@ -12,7 +12,7 @@
 		<div class="card-body">
 			<form id="login-form" class="mt-3 mb-3">
 				<div class="form-group box-valid mb-3">
-					<input name="taikhoan" type="text" class="form-control" placeholder="Tài khoản" minlength="6" maxlength="16">
+					<input name="taikhoan" type="text" class="form-control" placeholder="Tài khoản" minlength="5" maxlength="16">
 				</div>
 				<div class="form-group box-valid mb-2">
 					<input  name="matkhau" type="password" class="form-control" placeholder="Mật khẩu" minlength="6" maxlength="36">
@@ -43,7 +43,7 @@
 			rules:{
 				"taikhoan": {
 					required: true,
-					minlength: 6,
+					minlength: 5,
 					maxlength: 16
 				},
 				"matkhau": {
@@ -55,7 +55,7 @@
 			messages:{
 				"taikhoan":{
 					required: 'Nhập tên tài khoản',
-					minlength: 'Tên tài khoản tối thiểu 6 ký tự',
+					minlength: 'Tên tài khoản tối thiểu 5 ký tự',
 					maxlength: 'Tên tài khoản tối đa 16 ký tự'
 				},
 				"matkhau":{
