@@ -1,7 +1,7 @@
 <?php 
 
 // kiem tra nguoi dung
-if(!$infoUser){
+if(!isset($infoUser)){
 
 	if (isset($ctrl)) {
 	// code...
