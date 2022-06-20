@@ -104,7 +104,7 @@
 				let repasswordtwo = $(this).find('input[name="repasswordtwo"]').val();
 				let token = $('body').data('token');
 				$.ajax({
-					url: '/handle/xulyUser.php',
+					url: '/handle/makePassTwo.php',
 					type: 'POST',
 					data: {web_token:token,password:passwordtwo},
 					beforeSend: function(){

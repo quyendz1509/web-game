@@ -20,12 +20,39 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 		if (password_verify($_WEB_TOKEN,$_POST['web_token'])) {
 			// xử lý sau khi xác thực người dùng thành công
 
-			$key = (int) htmlspecialchars(trim($_POST['key']));
+			// Bắt đầu xử lý cookie người dùng
+			
+			if (!isset($_COOKIE['id'])) {
+				$json  = array('status' => -99, 'sms' => 'UNKNOWN MEMBERS');
+			}else{
+				$newId = $_COOKIE['id'];
+		// sau khi tìm được id thích hợp thì... lấy info ra :D
+				$idmember = $func->checkCookieId($newId,$_ID_USER_NUMBER);
+		// sau khi tìm được id thích hợp thì... lấy info ra :D
+				if ($idmember == false) {
+					$json  = array('status' => -99, 'sms' => 'Không tìm thấy tài khoản người dùng');
+				}else{
+					$info = $func->userNameInfomationId($idmember);
+					if (!$info) {
+						$json  = array('status' => -99, 'sms' => 'Không tìm thấy tài khoản người dùng');
+					}else{
+					// xử lý nhận dữ liệu vào
+						
+						$send_mail = $func->sendMail($info['email'],$info['ID']);
+						if ($send_mail == 'success') {
+							$json  = array('status' => 99, 'sms' => 'Gửi OTP đến email <strong>'.$info['email'].'</strong> Vui lòng kiểm tra hòm thư (hoặc hòm thư spam).');
 
+						}else{
+							$json  = array('status' => 99, 'sms' => 'Gửi OTP thất bại vui lòng liên hệ admin');
 
-			else{
-				$json  = array('status' => -99, 'sms' => 'Access Denied' );
+						}
+						
+					}
+				}
+
+				
 			}
+
 
 			// end check
 

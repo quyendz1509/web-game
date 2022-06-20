@@ -8,3 +8,4 @@ $(document).ready(function() {
 	const path_search_name = path_name+search_name;
 	$(`.nav-link-custom a[href="${path_search_name}"]`).addClass('active');
 });
+

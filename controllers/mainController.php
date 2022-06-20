@@ -45,6 +45,9 @@ if(!isset($infoUser)){
 			case 'ls-chuyenxu':
 			require 'historyChuyenXu.php';
 			break;
+				case 'giftcode':
+			require 'giftCode.php';
+			break;
 			default:
 			require 'homeController.php';
 			break;

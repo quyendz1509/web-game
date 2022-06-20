@@ -31,7 +31,7 @@
 	<script src="/public/js/dataTables.responsive.min.js"></script>
 	<script src="/public/js/responsive.bootstrap5.min.js"></script>
 
-	<script src=""></script>
+
 	<script src="/public/js/script.js"></script>
 	<!-- JS CODE -->
 </head>

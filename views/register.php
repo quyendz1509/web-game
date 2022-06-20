@@ -141,7 +141,7 @@ $('#register-form').submit(function(event) {
 			});
 		}else{
 			$.ajax({
-				url: '/handle/auth.php',
+				url: '/xuly/auth.php',
 				type: 'POST',
 				data: {taikhoan: taikhoan,email:email,phone:phone,matkhau:matkhau,'g-recaptcha-response': captcha,web_token:token,key: 1,gender:gender},
 				beforeSend: function(){

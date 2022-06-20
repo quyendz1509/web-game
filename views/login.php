@@ -74,7 +74,7 @@
 				let matkhau = $(this).find('input[name="matkhau"]').val();
 				let token = $('body').data('token');
 				$.ajax({
-					url: '/handle/auth.php',
+					url: '/xuly/auth.php',
 					type: 'POST',
 					data: {key:2,taikhoan:taikhoan,matkhau:matkhau,web_token:token},
 					beforeSend: function(){

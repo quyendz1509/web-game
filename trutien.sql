@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 25, 2022 lúc 06:36 PM
--- Phiên bản máy phục vụ: 10.4.24-MariaDB
--- Phiên bản PHP: 7.4.28
+-- Host: 127.0.0.1
+-- Generation Time: Jun 20, 2022 at 01:26 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `trutien`
+-- Database: `trutien`
 --
 
 DELIMITER $$
 --
--- Thủ tục
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `acquireuserpasswd` (IN `name1` VARCHAR(64), OUT `uid1` INTEGER, OUT `passwd1` VARCHAR(64))   BEGIN
   DECLARE passwdtemp VARCHAR(64);
@@ -319,7 +319,7 @@ COMMIT;
 END$$
 
 --
--- Các hàm
+-- Functions
 --
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_varbintohexsubstring` (`fsetprefix` BIT, `pbinin` VARBINARY(8000), `startoffset` INT, `cbytesin` INT) RETURNS VARCHAR(4000) CHARSET latin1 READS SQL DATA BEGIN
   DECLARE pstrout VARCHAR(4000);
@@ -354,7 +354,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `auth`
+-- Table structure for table `auth`
 --
 
 CREATE TABLE `auth` (
@@ -364,7 +364,7 @@ CREATE TABLE `auth` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `auth`
+-- Dumping data for table `auth`
 --
 
 INSERT INTO `auth` (`userid`, `zoneid`, `rid`) VALUES
@@ -424,7 +424,7 @@ INSERT INTO `auth` (`userid`, `zoneid`, `rid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `base`
+-- Table structure for table `base`
 --
 
 CREATE TABLE `base` (
@@ -450,7 +450,7 @@ CREATE TABLE `base` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `base`
+-- Dumping data for table `base`
 --
 
 INSERT INTO `base` (`bid`, `version`, `akkid`, `id`, `name`, `gender`, `occupation`, `status`, `level`, `exp`, `pp`, `hp`, `mp`, `posx`, `posy`, `posz`, `pkvalue`, `worldtag`, `reputation`) VALUES
@@ -3369,7 +3369,7 @@ INSERT INTO `base` (`bid`, `version`, `akkid`, `id`, `name`, `gender`, `occupati
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `checkmagioithieu`
+-- Table structure for table `checkmagioithieu`
 --
 
 CREATE TABLE `checkmagioithieu` (
@@ -3384,7 +3384,7 @@ CREATE TABLE `checkmagioithieu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chuyenkhoan`
+-- Table structure for table `chuyenkhoan`
 --
 
 CREATE TABLE `chuyenkhoan` (
@@ -3397,7 +3397,7 @@ CREATE TABLE `chuyenkhoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `chuyenkhoan`
+-- Dumping data for table `chuyenkhoan`
 --
 
 INSERT INTO `chuyenkhoan` (`id`, `user`, `menhgia`, `xunhan`, `time`, `trangthai`) VALUES
@@ -4244,7 +4244,7 @@ INSERT INTO `chuyenkhoan` (`id`, `user`, `menhgia`, `xunhan`, `time`, `trangthai
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ckkhac`
+-- Table structure for table `ckkhac`
 --
 
 CREATE TABLE `ckkhac` (
@@ -4257,7 +4257,7 @@ CREATE TABLE `ckkhac` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `ckkhac`
+-- Dumping data for table `ckkhac`
 --
 
 INSERT INTO `ckkhac` (`id`, `users`, `soxuck`, `noidung`, `xunhan`, `thoigian`) VALUES
@@ -4272,7 +4272,7 @@ INSERT INTO `ckkhac` (`id`, `users`, `soxuck`, `noidung`, `xunhan`, `thoigian`) 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `codenapthe`
+-- Table structure for table `codenapthe`
 --
 
 CREATE TABLE `codenapthe` (
@@ -4289,7 +4289,7 @@ CREATE TABLE `codenapthe` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cuahang`
+-- Table structure for table `cuahang`
 --
 
 CREATE TABLE `cuahang` (
@@ -4310,7 +4310,7 @@ CREATE TABLE `cuahang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `cuahang`
+-- Dumping data for table `cuahang`
 --
 
 INSERT INTO `cuahang` (`id`, `idvp`, `mavp`, `tenvp`, `gia`, `tonkho`, `daban`, `gioihan`, `ngaybatdau`, `ngayketthuc`, `ngaynhap`, `trangthai`, `ghichu`, `hinhanh`) VALUES
@@ -4324,7 +4324,7 @@ INSERT INTO `cuahang` (`id`, `idvp`, `mavp`, `tenvp`, `gia`, `tonkho`, `daban`, 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `denbu`
+-- Table structure for table `denbu`
 --
 
 CREATE TABLE `denbu` (
@@ -4342,7 +4342,7 @@ CREATE TABLE `denbu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `denbu`
+-- Dumping data for table `denbu`
 --
 
 INSERT INTO `denbu` (`stt`, `tkbancu`, `tkbanmoi`, `xudenbu`, `diemvip`, `hotrolan1`, `hotrolan2`, `solandenbu`, `maychu`, `thoigian`, `ghichu`) VALUES
@@ -4519,7 +4519,7 @@ INSERT INTO `denbu` (`stt`, `tkbancu`, `tkbanmoi`, `xudenbu`, `diemvip`, `hotrol
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `doiclass`
+-- Table structure for table `doiclass`
 --
 
 CREATE TABLE `doiclass` (
@@ -4540,7 +4540,7 @@ CREATE TABLE `doiclass` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `doiclass`
+-- Dumping data for table `doiclass`
 --
 
 INSERT INTO `doiclass` (`id`, `user`, `idgoc`, `tennv`, `tamgioi`, `classtruoc`, `classsau`, `goichuyen`, `chiphi`, `diemvip`, `xucon`, `thoigian`, `trangthai`, `ghichu`) VALUES
@@ -4639,7 +4639,7 @@ INSERT INTO `doiclass` (`id`, `user`, `idgoc`, `tennv`, `tamgioi`, `classtruoc`,
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `exchange`
+-- Table structure for table `exchange`
 --
 
 CREATE TABLE `exchange` (
@@ -4654,7 +4654,7 @@ CREATE TABLE `exchange` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `exchange`
+-- Dumping data for table `exchange`
 --
 
 INSERT INTO `exchange` (`id`, `user`, `charguid`, `amount`, `time`, `soknb`, `diemvip`, `ghichu`) VALUES
@@ -7243,7 +7243,7 @@ INSERT INTO `exchange` (`id`, `user`, `charguid`, `amount`, `time`, `soknb`, `di
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `forbid`
+-- Table structure for table `forbid`
 --
 
 CREATE TABLE `forbid` (
@@ -7258,7 +7258,7 @@ CREATE TABLE `forbid` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `giahanvip`
+-- Table structure for table `giahanvip`
 --
 
 CREATE TABLE `giahanvip` (
@@ -7274,7 +7274,7 @@ CREATE TABLE `giahanvip` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `giahanvip`
+-- Dumping data for table `giahanvip`
 --
 
 INSERT INTO `giahanvip` (`id`, `user`, `capvip`, `ngaygiahan`, `ngaytieptheo`, `thoigian`, `ghichu`, `trangthai`, `tennv`) VALUES
@@ -7463,7 +7463,7 @@ INSERT INTO `giahanvip` (`id`, `user`, `capvip`, `ngaygiahan`, `ngaytieptheo`, `
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `giaodichxu`
+-- Table structure for table `giaodichxu`
 --
 
 CREATE TABLE `giaodichxu` (
@@ -7478,7 +7478,7 @@ CREATE TABLE `giaodichxu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `iplimit`
+-- Table structure for table `iplimit`
 --
 
 CREATE TABLE `iplimit` (
@@ -7496,7 +7496,7 @@ CREATE TABLE `iplimit` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khovatpham`
+-- Table structure for table `khovatpham`
 --
 
 CREATE TABLE `khovatpham` (
@@ -7516,7 +7516,7 @@ CREATE TABLE `khovatpham` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `knbevent`
+-- Table structure for table `knbevent`
 --
 
 CREATE TABLE `knbevent` (
@@ -7529,7 +7529,7 @@ CREATE TABLE `knbevent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `knbevent`
+-- Dumping data for table `knbevent`
 --
 
 INSERT INTO `knbevent` (`id`, `taikhoan`, `maid`, `xuevent`, `noidung`, `thoigian`) VALUES
@@ -8273,7 +8273,7 @@ INSERT INTO `knbevent` (`id`, `taikhoan`, `maid`, `xuevent`, `noidung`, `thoigia
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `lichsucuahang`
+-- Table structure for table `lichsucuahang`
 --
 
 CREATE TABLE `lichsucuahang` (
@@ -8295,7 +8295,7 @@ CREATE TABLE `lichsucuahang` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `magioithieu`
+-- Table structure for table `magioithieu`
 --
 
 CREATE TABLE `magioithieu` (
@@ -8308,7 +8308,7 @@ CREATE TABLE `magioithieu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `matanthu`
+-- Table structure for table `matanthu`
 --
 
 CREATE TABLE `matanthu` (
@@ -8320,7 +8320,7 @@ CREATE TABLE `matanthu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `matanthu`
+-- Dumping data for table `matanthu`
 --
 
 INSERT INTO `matanthu` (`MaTT`, `TenMa`, `TrangThai`, `taikhoannhan`, `matk`) VALUES
@@ -10268,7 +10268,7 @@ INSERT INTO `matanthu` (`MaTT`, `TenMa`, `TrangThai`, `taikhoannhan`, `matk`) VA
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `online`
+-- Table structure for table `online`
 --
 
 CREATE TABLE `online` (
@@ -10276,7 +10276,7 @@ CREATE TABLE `online` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `online`
+-- Dumping data for table `online`
 --
 
 INSERT INTO `online` (`ID`) VALUES
@@ -10369,7 +10369,7 @@ INSERT INTO `online` (`ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `pay`
+-- Table structure for table `pay`
 --
 
 CREATE TABLE `pay` (
@@ -10387,7 +10387,7 @@ CREATE TABLE `pay` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `pay`
+-- Dumping data for table `pay`
 --
 
 INSERT INTO `pay` (`id`, `user`, `loaithe`, `seri`, `mathe`, `menhgia`, `soluong`, `pay_time`, `trangthai`, `khuyenmai`, `request_id`) VALUES
@@ -10495,7 +10495,7 @@ INSERT INTO `pay` (`id`, `user`, `loaithe`, `seri`, `mathe`, `menhgia`, `soluong
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `point`
+-- Table structure for table `point`
 --
 
 CREATE TABLE `point` (
@@ -10510,7 +10510,7 @@ CREATE TABLE `point` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `point`
+-- Dumping data for table `point`
 --
 
 INSERT INTO `point` (`uid`, `aid`, `time`, `zoneid`, `zonelocalid`, `accountstart`, `lastlogin`, `enddate`) VALUES
@@ -12160,7 +12160,28 @@ INSERT INTO `point` (`uid`, `aid`, `time`, `zoneid`, `zonelocalid`, `accountstar
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `server`
+-- Table structure for table `request_token`
+--
+
+CREATE TABLE `request_token` (
+  `id` int(15) NOT NULL,
+  `user_request_id` int(15) NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `request_token`
+--
+
+INSERT INTO `request_token` (`id`, `user_request_id`, `token`, `time`) VALUES
+(27, 48, '590466', '2022-06-20 18:22:23'),
+(28, 30944, '308177', '2022-06-20 18:20:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `server`
 --
 
 CREATE TABLE `server` (
@@ -12170,7 +12191,7 @@ CREATE TABLE `server` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `server`
+-- Dumping data for table `server`
 --
 
 INSERT INTO `server` (`id`, `name`, `host`) VALUES
@@ -12179,7 +12200,7 @@ INSERT INTO `server` (`id`, `name`, `host`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `tonhieu`
+-- Table structure for table `tonhieu`
 --
 
 CREATE TABLE `tonhieu` (
@@ -12193,7 +12214,33 @@ CREATE TABLE `tonhieu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `usecashlog`
+-- Table structure for table `transfersxu`
+--
+
+CREATE TABLE `transfersxu` (
+  `id` int(25) NOT NULL,
+  `id_user_get` int(15) NOT NULL,
+  `id_user_send` int(15) NOT NULL,
+  `soluong` int(25) NOT NULL DEFAULT 0,
+  `thucnhan` int(25) NOT NULL DEFAULT 0,
+  `sodu_user_send` int(25) NOT NULL DEFAULT 0,
+  `sodu_user_get` int(25) NOT NULL DEFAULT 0,
+  `loai_xu` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `noidung` text COLLATE utf8_unicode_ci NOT NULL,
+  `time` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `transfersxu`
+--
+
+INSERT INTO `transfersxu` (`id`, `id_user_get`, `id_user_send`, `soluong`, `thucnhan`, `sodu_user_send`, `sodu_user_get`, `loai_xu`, `noidung`, `time`) VALUES
+(1, 48, 30944, 1000, 20000, 3293633, 5000, 'knb', 'okay', '2022-06-19 23:18:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usecashlog`
 --
 
 CREATE TABLE `usecashlog` (
@@ -12209,7 +12256,7 @@ CREATE TABLE `usecashlog` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `usecashlog`
+-- Dumping data for table `usecashlog`
 --
 
 INSERT INTO `usecashlog` (`userid`, `zoneid`, `sn`, `aid`, `point`, `cash`, `status`, `creatime`, `fintime`) VALUES
@@ -14798,7 +14845,7 @@ INSERT INTO `usecashlog` (`userid`, `zoneid`, `sn`, `aid`, `point`, `cash`, `sta
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `usecashnow`
+-- Table structure for table `usecashnow`
 --
 
 CREATE TABLE `usecashnow` (
@@ -14815,7 +14862,7 @@ CREATE TABLE `usecashnow` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -14846,12 +14893,12 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`ID`, `name`, `passwd`, `Prompt`, `answer`, `truename`, `idnumber`, `email`, `mobilenumber`, `province`, `city`, `phonenumber`, `address`, `postalcode`, `gender`, `birthday`, `creatime`, `qq`, `passwd2`, `chuyenkhoan`, `napthe`, `hotro1`, `hotro2`, `thedangky`) VALUES
 (32, 'demo1', '%òž>®<36Œì}EÞ', '0', '0', '0', 'thientu', 'demo1@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:35:19', '0', '171.234.9.37', 0, 0, 0, 0, '0'),
-(48, 'vanquy', 'ú’ÛgP\nÅ=ÑÉ!ö”æ', '0', '0', '0', 'thientu', 'vanquy@gmai.com', '0365820182', '3', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:36:24', '0', '171.234.9.37', 0, 0, 0, 0, '116.98.188.114'),
+(48, 'vanquy', 'ú’ÛgP\nÅ=ÑÉ!ö”æ', '0', '4297f44b13955235245b2497399d7a93', '0', 'thientu', 'nguyendaonhumai293@gmail.com', '0365820182', '3', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:36:24', '0', '127.0.0.1', 0, 0, 0, 0, '127.0.0.1'),
 (64, 'demo2', 'JcÜÜ1®²ªër±*‰', '0', '0', '0', 'thientu', 'demo2@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:36:59', '0', '171.234.9.37', 0, 0, 0, 0, '171.234.9.37'),
 (80, 'acon12', 'ÚJY_™<<µãsUSd', '0', '0', '0', 'thientu', 'acon12@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:37:38', '0', '171.234.9.37', 0, 0, 0, 0, '116.98.188.114'),
 (96, 'demo3', 'EA#„QlU\rG+È6”', '0', '0', '0', 'thientu', 'demo3@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-09 16:42:21', '0', '171.234.9.37', 0, 0, 0, 0, '0'),
@@ -16789,12 +16836,13 @@ INSERT INTO `users` (`ID`, `name`, `passwd`, `Prompt`, `answer`, `truename`, `id
 (30880, 'truongngaba', 'Ë®\0ZJªèÚtUûx', '0', '0', '0', '126835', 'truongngaba@gmail.com', '0973684684', '0', '0', '0', 0, '126835', 0, '0000-00-00 00:00:00', '2022-05-25 10:37:19', '0', '171.228.44.127', 0, 0, 0, 0, '171.228.44.127'),
 (30896, 'langle0209', 'eºÁðÈÛÊ=åƒP6€,', '0', '0', '0', 'hoangduy', 'nhozbaby@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:24:17', '0', '126.48.255.120', 0, 0, 0, 0, '126.48.255.120'),
 (30912, 'langle01', '¯Œ¼½L¼kÁËŽü7Ä', '0', '0', '0', 'hoangduy', 'nhozb@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:24:52', '0', '126.48.255.120', 0, 0, 0, 0, '0'),
-(30928, 'langle1', '²EQËÇÀ½hÉÉÍÅ\n´0', '0', '0', '0', 'hoangduy', 'nhozba@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:25:19', '0', '126.48.255.120', 0, 0, 0, 0, '0');
+(30928, 'langle1', '²EQËÇÀ½hÉÉÍÅ\n´0', '0', '0', '0', 'hoangduy', 'nhozba@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:25:19', '0', '126.48.255.120', 0, 0, 0, 0, '0'),
+(30944, 'quyendz1509', '0xf8c3e402a632a782c61c34d6a67539c3', '0', '69ae8f31b482397e27f8121fb6ad605c', '0', '123123', 'quyendz1509@gmail.com', '0915606449', '0', '0', '0', 0, '65170', 0, NULL, '2022-06-20 01:18:00', '0', '127.0.0.1', 0, 0, 0, 0, '127.0.0.1');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `vipuser`
+-- Table structure for table `vipuser`
 --
 
 CREATE TABLE `vipuser` (
@@ -16827,7 +16875,7 @@ CREATE TABLE `vipuser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `vipuser`
+-- Dumping data for table `vipuser`
 --
 
 INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
@@ -18770,123 +18818,135 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (30928, 'langle1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `auth`
+-- Indexes for table `auth`
 --
 ALTER TABLE `auth`
   ADD PRIMARY KEY (`userid`,`zoneid`,`rid`);
 
 --
--- Chỉ mục cho bảng `base`
+-- Indexes for table `base`
 --
 ALTER TABLE `base`
   ADD PRIMARY KEY (`bid`);
 
 --
--- Chỉ mục cho bảng `chuyenkhoan`
+-- Indexes for table `chuyenkhoan`
 --
 ALTER TABLE `chuyenkhoan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `ckkhac`
+-- Indexes for table `ckkhac`
 --
 ALTER TABLE `ckkhac`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `cuahang`
+-- Indexes for table `cuahang`
 --
 ALTER TABLE `cuahang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `denbu`
+-- Indexes for table `denbu`
 --
 ALTER TABLE `denbu`
   ADD PRIMARY KEY (`stt`);
 
 --
--- Chỉ mục cho bảng `doiclass`
+-- Indexes for table `doiclass`
 --
 ALTER TABLE `doiclass`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `exchange`
+-- Indexes for table `exchange`
 --
 ALTER TABLE `exchange`
   ADD PRIMARY KEY (`id`),
   ADD KEY `trade_no` (`id`);
 
 --
--- Chỉ mục cho bảng `forbid`
+-- Indexes for table `forbid`
 --
 ALTER TABLE `forbid`
   ADD PRIMARY KEY (`userid`,`type`);
 
 --
--- Chỉ mục cho bảng `giahanvip`
+-- Indexes for table `giahanvip`
 --
 ALTER TABLE `giahanvip`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `iplimit`
+-- Indexes for table `iplimit`
 --
 ALTER TABLE `iplimit`
   ADD PRIMARY KEY (`uid`);
 
 --
--- Chỉ mục cho bảng `knbevent`
+-- Indexes for table `knbevent`
 --
 ALTER TABLE `knbevent`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `lichsucuahang`
+-- Indexes for table `lichsucuahang`
 --
 ALTER TABLE `lichsucuahang`
   ADD PRIMARY KEY (`stt`);
 
 --
--- Chỉ mục cho bảng `pay`
+-- Indexes for table `pay`
 --
 ALTER TABLE `pay`
   ADD PRIMARY KEY (`id`),
   ADD KEY `trade_no` (`id`);
 
 --
--- Chỉ mục cho bảng `point`
+-- Indexes for table `point`
 --
 ALTER TABLE `point`
   ADD PRIMARY KEY (`uid`,`aid`),
   ADD KEY `IX_point_aidzoneid` (`aid`,`zoneid`);
 
 --
--- Chỉ mục cho bảng `server`
+-- Indexes for table `request_token`
+--
+ALTER TABLE `request_token`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `server`
 --
 ALTER TABLE `server`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `tonhieu`
+-- Indexes for table `tonhieu`
 --
 ALTER TABLE `tonhieu`
   ADD PRIMARY KEY (`stt`);
 
 --
--- Chỉ mục cho bảng `usecashlog`
+-- Indexes for table `transfersxu`
+--
+ALTER TABLE `transfersxu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `usecashlog`
 --
 ALTER TABLE `usecashlog`
   ADD KEY `IX_usecashlog_creatime` (`creatime`),
   ADD KEY `IX_usecashlog_uzs` (`userid`,`zoneid`,`sn`);
 
 --
--- Chỉ mục cho bảng `usecashnow`
+-- Indexes for table `usecashnow`
 --
 ALTER TABLE `usecashnow`
   ADD PRIMARY KEY (`userid`,`zoneid`,`sn`),
@@ -18894,7 +18954,7 @@ ALTER TABLE `usecashnow`
   ADD KEY `IX_usecashnow_status` (`status`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`ID`),
@@ -18902,92 +18962,104 @@ ALTER TABLE `users`
   ADD KEY `IX_users_creatime` (`creatime`);
 
 --
--- Chỉ mục cho bảng `vipuser`
+-- Indexes for table `vipuser`
 --
 ALTER TABLE `vipuser`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `base`
+-- AUTO_INCREMENT for table `base`
 --
 ALTER TABLE `base`
   MODIFY `bid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2905;
 
 --
--- AUTO_INCREMENT cho bảng `chuyenkhoan`
+-- AUTO_INCREMENT for table `chuyenkhoan`
 --
 ALTER TABLE `chuyenkhoan`
   MODIFY `id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8421;
 
 --
--- AUTO_INCREMENT cho bảng `ckkhac`
+-- AUTO_INCREMENT for table `ckkhac`
 --
 ALTER TABLE `ckkhac`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT cho bảng `cuahang`
+-- AUTO_INCREMENT for table `cuahang`
 --
 ALTER TABLE `cuahang`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT cho bảng `denbu`
+-- AUTO_INCREMENT for table `denbu`
 --
 ALTER TABLE `denbu`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=545;
 
 --
--- AUTO_INCREMENT cho bảng `doiclass`
+-- AUTO_INCREMENT for table `doiclass`
 --
 ALTER TABLE `doiclass`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
--- AUTO_INCREMENT cho bảng `exchange`
+-- AUTO_INCREMENT for table `exchange`
 --
 ALTER TABLE `exchange`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19420;
 
 --
--- AUTO_INCREMENT cho bảng `giahanvip`
+-- AUTO_INCREMENT for table `giahanvip`
 --
 ALTER TABLE `giahanvip`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=871;
 
 --
--- AUTO_INCREMENT cho bảng `knbevent`
+-- AUTO_INCREMENT for table `knbevent`
 --
 ALTER TABLE `knbevent`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1894;
 
 --
--- AUTO_INCREMENT cho bảng `lichsucuahang`
+-- AUTO_INCREMENT for table `lichsucuahang`
 --
 ALTER TABLE `lichsucuahang`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1133;
 
 --
--- AUTO_INCREMENT cho bảng `pay`
+-- AUTO_INCREMENT for table `pay`
 --
 ALTER TABLE `pay`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
--- AUTO_INCREMENT cho bảng `server`
+-- AUTO_INCREMENT for table `request_token`
+--
+ALTER TABLE `request_token`
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `server`
 --
 ALTER TABLE `server`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `tonhieu`
+-- AUTO_INCREMENT for table `tonhieu`
 --
 ALTER TABLE `tonhieu`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transfersxu`
+--
+ALTER TABLE `transfersxu`
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
