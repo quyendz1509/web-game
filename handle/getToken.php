@@ -39,11 +39,14 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 					// xử lý nhận dữ liệu vào
 						
 						$send_mail = $func->sendMail($info['email'],$info['ID']);
-						if ($send_mail == 'success') {
+						if ($send_mail == 'die') {
+							$json  = array('status' => -99, 'sms' => 'Vui lòng thử lại sau 10 phút.');
+
+						}else if ($send_mail == 'done') {
 							$json  = array('status' => 99, 'sms' => 'Gửi OTP đến email <strong>'.$info['email'].'</strong> Vui lòng kiểm tra hòm thư (hoặc hòm thư spam).');
 
 						}else{
-							$json  = array('status' => 99, 'sms' => 'Gửi OTP thất bại vui lòng liên hệ admin');
+							$json  = array('status' => -99, 'sms' => 'Gửi OTP thất bại vui lòng liên hệ admin.');
 
 						}
 						

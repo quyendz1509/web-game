@@ -44,7 +44,7 @@
 			event.preventDefault();
 			let token = $('body').data('token');
 				$.ajax({
-					url: '/handle/changePwLogin.php',
+					url: '/xuly/getToken.php',
 					type: 'POST',
 					data: {web_token: token},
 					beforeSend: function(){
