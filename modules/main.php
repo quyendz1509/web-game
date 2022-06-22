@@ -6,6 +6,10 @@
 class mainClass extends DATABASE
 {
 	// 
+	function vongquay(){
+		$sql='SELECT * FROM `test` ORDER BY `percent` DESC';
+		return $this->pdo_query($sql);
+	}
 	// check cookie
 	function checkCookieId($id_hash,$_ID_USER_NUMBER){
 		// Lấy thông tin tất cả member (Củ chuối thế nhờ :( )
