@@ -32,6 +32,8 @@ if ($_WEB_STATUS == 0) {
 			header('location: /');
 		}else{
 			$id_user_hash = $infoUser['ID'] + $_ID_USER_NUMBER;
+			
+		
 		}
 	}
 	// Tạo sesion web token

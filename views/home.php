@@ -12,6 +12,7 @@
 	<div class="form-right-home">
 
 		<div class="row">
+
 			<div class="col-sm-6 mb-3">
 				<label for="">ID</label>
 				<input type="text" class="form-control" value="<?= $id_user_hash ?>" readOnly>

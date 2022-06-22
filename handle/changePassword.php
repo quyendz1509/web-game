@@ -37,27 +37,59 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 						$json  = array('status' => -99, 'sms' => 'Không tìm thấy tài khoản người dùng');
 					}else{
 					// xử lý nhận dữ liệu vào
-						$password = htmlspecialchars(trim($_POST['password']));
-						if ($password == '') {
-							$json  = array('status' => -99, 'sms' => 'Không bỏ trống thông tin');
+					// xử lý nhận dữ liệu vào
+					// xử lý nhận dữ liệu vào
+					// xử lý nhận dữ liệu vào
+						$pass_old = htmlspecialchars(trim($_POST['oldpass']));
+						$pass_new = htmlspecialchars(trim($_POST['newpass']));
+						$otp = htmlspecialchars(trim($_POST['otp']));
+						if ($pass_old == '' || $pass_new == '' || $otp == '') {
+							$json  = array('status' => -99, 'sms' => 'Không được bỏ trống thông tin');
+						}else if($info['idnumber'] != $pass_old){
+							$json  = array('status' => -99, 'sms' => 'Mật khẩu cũ không chính xác');
 
-						}else if( strlen($password) < 6 || strlen($password) > 36 ){
-							$json  = array('status' => -99, 'sms' => 'Mật khẩu chỉ được từ 6 - 36 ký tự');
-						}
-						else if ($info['answer'] != 0) {
-							$json  = array('status' => -99, 'sms' => 'Tài khoản đã đăng ký mật khẩu cấp 2 trước đây.');
 						}else{
-							$salt = md5($password);
-							$res_ = $func->insertSecurityPassword($salt,$info['ID']);
-							if ($res_ == null) {
-								$json  = array('status' => 99, 'sms' => 'Đăng ký mật khẩu cấp 2 thành công.');
-
+							// check otp nào :D
+							$time_check = $func-> checkTokenByIdUser($otp,$info['ID']);
+							if ($time_check == 'unknown') {
+								$json  = array('status' => -99, 'sms' => 'Mã xác thực không hợp lệ vui lòng lấy <strong class="text-danger">mã xác thực</strong> trước.');
+							}else if($time_check == 'timeout'){
+								$json  = array('status' => -99, 'sms' => 'Mã xác thực của bạn đã hết hạn sử dụng vui lòng lấy <strong class="text-danger">mã xác thực</strong> mới.');
 							}else{
-									$json  = array('status' => -99, 'sms' => 'Lỗi hệ thống. Mã lỗi [3403] ' );
-								
-							}
+								$Salt = $info['name'].$pass_new;
 
+								$Salt = md5($Salt);
+
+								$Salt = "0x".$Salt;
+
+						// Thêm người dùng vào database
+								$ip = $func->get_client_ip();
+								$id_general = $info['ID'] + $_ID_USER_NUMBER;
+								$res_ = $func->updateUser($info['ID'],$pass_new,$Salt,$ip);
+								if ($res_ == NULL) {
+									$id_hash = md5($id_general.$pass_new.$ip);
+							// Rồi giờ mã hóa id 1 lớp nữa :3
+							// setcookie người dùng
+									setcookie('id', $id_hash, time() + 86400, "/");
+
+									$json  = array('status' => 0, 'sms' => 'Đổi mật khẩu thành công !' );
+								}else{
+									$json  = array('status' => -99, 'sms' => 'Lỗi hệ thống. Mã lỗi [3403] ' );
+
+								}
+
+							}
 						}
+
+						
+
+					// kết thúc xử lý dữ liệu đầu vào
+					// kết thúc xử lý dữ liệu đầu vào
+					// kết thúc xử lý dữ liệu đầu vào
+					// kết thúc xử lý dữ liệu đầu vào
+
+
+						
 					}
 				}
 

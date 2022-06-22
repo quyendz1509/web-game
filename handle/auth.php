@@ -104,13 +104,20 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 						// Thêm người dùng vào database
 							$id_nor = $func->getListUser();
 							$id_general = $id_nor + $_ID_USER_NUMBER;
-							$func->makeMember($username,$Salt,$password,$email,$phone,$coderand,$gender,$ip,$cretime,$id_nor);
-							$id_hash = md5($id_general.$password.$ip);
+							$res_ = $func->makeMember($username,$Salt,$password,$email,$phone,$coderand,$gender,$ip,$cretime,$id_nor);
+
+							if ($res_ == NULL) {
+								$id_hash = md5($id_general.$password.$ip);
 							// Rồi giờ mã hóa id 1 lớp nữa :3
 							// setcookie người dùng
 							setcookie('id', $id_hash, time() + 86400, "/");
 
 							$json  = array('status' => 0, 'sms' => 'Đăng ký tài khoản thành công !' );
+							}else{
+									$json  = array('status' => -99, 'sms' => 'Lỗi hệ thống. Mã lỗi [3403] ' );
+								
+							}
+						
 
 
 						}

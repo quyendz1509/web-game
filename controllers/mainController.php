@@ -21,6 +21,7 @@ if(!isset($infoUser)){
 	}
 
 }else{
+
 	if (isset($ctrl)) {
 	// code...
 
@@ -49,6 +50,7 @@ if(!isset($infoUser)){
 			require 'giftCode.php';
 			break;
 			default:
+			
 			require 'homeController.php';
 			break;
 		}

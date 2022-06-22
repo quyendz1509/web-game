@@ -6,21 +6,53 @@
 	<div class="form-right-home">
 		<div class="row">
 			<div class="col-sm-12 mb-3">
-				<label for="">Mật khẩu hiện tại</label>
-				<input type="text" class="form-control" placeholder="Nhập mật khẩu cũ">
-			</div>
-			<div class="col-sm-12 mb-3">
-				<label for="">Mã xác thực</label>
-				<div class="input-group">
-					<input type="email" class="form-control" placeholder="Gồm 6 chữ số">
-					<button class="btn-cus btn-success" type="button">Lấy mã xác thực</button>
+				<label for="">Nhập Giftcode</label>
+				<div class="input-group custom-have-otp box-valid">
+					<input type="number" name="otpPWD" class="form-control" id="input-email" placeholder="Gồm 6 chữ số">
+					<button class="btn-cus btn-success" id="button-get-token" type="button">Lấy mã xác thực</button>
 				</div>
 			</div>
 			
 			<div class="col-sm-12 mb-3">
-				<button class="btn-cus btn-info">Đổi mật khẩu</button>
+				<button class="btn-cus btn-danger">Nhận Giftcode</button>
+			</div>
+
+			<div class="col-sm-12">
+				<hr>
+				<h5>Mã ưu đãi dành riêng cho bạn</h5>
+				
+				<table id="giftcode-form" class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Giftcode</th>
+							<th>Hạn sử dụng</th>
+							<th>Trạng thái</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>21zfd</td>
+							<td>2020-23-10</td>
+							<td><span class="badge bg-success">Active</span></td>
+
+						</tr>
+					</tbody>
+				</table>
+				<hr>
+			</div>
+			<div class="col-sm-12">
+				<h5>Lịch sử</h5>
+				<table>
+					
+				</table>
 			</div>
 		</div>
 	</div>
 </div>
 <!-- only div right :D -->
+<!-- <script>
+	$(document).ready(function() {
+		$('#giftcode-form').dataTable();
+	});
+</script> -->

@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="row justify-content-center">
 		<div class="logo">
-			<a href="#"><img src="/public/images/logo.png" width="115px"></a>
+			<a href="#"><img src="/public/images/logo.png" width="150px"></a>
 		</div>
 		<div class="menu-game">
 			<a href="/">Trang chủ</a>
@@ -16,6 +16,8 @@
 					<div class="col-md-4 col-sm-12 left-home mb-3">
 						<div class="info-left-side">
 							<div class="nav-link-custom justify-content-between">
+
+								<?php $infoCoin = $_main->infoInGame($infoUser['name']); ?>
 								<p class="m-0 p-0"><i class="las la-user-circle cus-info-icon"></i><span>[<?= $id_user_hash ?>] <?= $infoUser['name'] ?></span></p>
 								<button class="toggle-button-menu"><i class="las la-bars"></i></button>
 							</div>
@@ -24,6 +26,15 @@
 							<ul class="nav flex-column ul-custom-home-left" >
 								
 								<!-- another -->
+								<li  class="nav-item">
+									<div class="nav-link-custom">
+										Xu nạp:   <?= number_format($infoCoin['xu']) ?> xu 
+										<br> Xu event: <?= number_format($infoCoin['xuev']) ?> xu 
+										<br> Xu hỗ trợ: <?= number_format($infoCoin['xuhotro']) ?> xu
+
+									</div>
+									
+								</li>
 								<li class="nav-item">
 									<div class="nav-link-custom">
 										<a href="/"><i class="las la-info-circle"></i> Thông tin tài khoản</a>

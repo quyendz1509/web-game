@@ -6,6 +6,10 @@
 class mainClass extends DATABASE
 {
 	// 
+	function infoInGame($name){
+		$sql='SELECT * FROM `vipuser` WHERE `name` = ?';
+		return $this->pdo_query_one($sql,$name);
+	}
 	// check cookie
 	function checkCookieId($id_hash,$_ID_USER_NUMBER){
 		// Lấy thông tin tất cả member (Củ chuối thế nhờ :( )

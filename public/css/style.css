@@ -16,6 +16,10 @@ body{
 .dataTables_wrapper .dataTables_paginate .paginate_button{
 	padding: 0px !important;
 }
+.custom-have-otp label.error{
+	order:  1;
+	width: 100%;
+}
 .form-custom{
 	border-radius: 6px;
 	padding: 6px 12px;
