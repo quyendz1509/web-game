@@ -6,9 +6,14 @@
 class mainClass extends DATABASE
 {
 	// 
+
 	function infoInGame($name){
 		$sql='SELECT * FROM `vipuser` WHERE `name` = ?';
 		return $this->pdo_query_one($sql,$name);
+}
+	function vongquay(){
+		$sql='SELECT * FROM `test` ORDER BY `percent` DESC';
+		return $this->pdo_query($sql);
 	}
 	// check cookie
 	function checkCookieId($id_hash,$_ID_USER_NUMBER){
@@ -77,22 +82,15 @@ class mainClass extends DATABASE
 	}
 	// Function to get the client IP address
 	function get_client_ip() {
-		$ipaddress = '';
-		if (getenv('HTTP_CLIENT_IP'))
-			$ipaddress = getenv('HTTP_CLIENT_IP');
-		else if(getenv('HTTP_X_FORWARDED_FOR'))
-			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-		else if(getenv('HTTP_X_FORWARDED'))
-			$ipaddress = getenv('HTTP_X_FORWARDED');
-		else if(getenv('HTTP_FORWARDED_FOR'))
-			$ipaddress = getenv('HTTP_FORWARDED_FOR');
-		else if(getenv('HTTP_FORWARDED'))
-			$ipaddress = getenv('HTTP_FORWARDED');
-		else if(getenv('REMOTE_ADDR'))
-			$ipaddress = getenv('REMOTE_ADDR');
-		else
-			$ipaddress = 'UNKNOWN';
-		return $ipaddress;
+		$url = 'https://api64.ipify.org?format=json';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($ch);
+		curl_close($ch);
+		$ipaddress = json_decode($result);
+		return $ipaddress->ip;
 	}
 
 }

@@ -40,7 +40,7 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 						
 						$send_mail = $func->sendMail($info['email'],$info['ID']);
 						if ($send_mail == 'die') {
-							$json  = array('status' => -99, 'sms' => 'Vui lòng thử lại sau 10 phút.');
+							$json  = array('status' => -99, 'sms' => 'Vui lòng thử lại sau 2 phút.');
 
 						}else if ($send_mail == 'done') {
 							$json  = array('status' => 99, 'sms' => 'Gửi OTP đến email <strong>'.$info['email'].'</strong> Vui lòng kiểm tra hòm thư (hoặc hòm thư spam).');
