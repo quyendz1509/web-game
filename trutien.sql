@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 22, 2022 lúc 08:27 PM
--- Phiên bản máy phục vụ: 10.4.24-MariaDB
--- Phiên bản PHP: 7.4.28
+-- Host: 127.0.0.1
+-- Generation Time: Jun 28, 2022 at 12:05 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,343 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `trutien`
+-- Database: `trutien`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `acquireuserpasswd` (IN `name1` VARCHAR(64), OUT `uid1` INTEGER, OUT `passwd1` VARCHAR(64))   BEGIN
+  DECLARE passwdtemp VARCHAR(64);
+  START TRANSACTION;
+    SELECT id, passwd INTO uid1, passwdtemp FROM users WHERE name = name1;
+    SELECT fn_varbintohexsubstring(1,passwdtemp,1,0) INTO passwd1;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addForbid` (IN `userid1` INTEGER, IN `type1` INTEGER, IN `forbid_time1` INTEGER, IN `reason1` BINARY(255), IN `gmroleid1` INTEGER)   BEGIN
+ DECLARE rowcount INTEGER;
+  START TRANSACTION;
+    UPDATE forbid SET ctime = now(), forbid_time = forbid_time1, reason = reason1, gmroleid = gmroleid1 WHERE userid = userid1 AND type = type1;
+    SET rowcount = ROW_COUNT();
+    IF rowcount = 0 THEN
+      INSERT INTO forbid VALUES(userid1, type1, now(), forbid_time1, reason1, gmroleid);
+    END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addGM` (IN `userid` INTEGER, IN `zoneid` INTEGER)   BEGIN
+  DECLARE x INTEGER;
+  START TRANSACTION;
+    SET x = 0;
+    WHILE x < 12 DO
+      INSERT INTO auth VALUES (userid, zoneid, x);
+      SET x = x + 1;
+    END WHILE;
+    SET x = 100;
+    WHILE x < 106 DO
+      INSERT INTO auth VALUES (userid, zoneid, x);
+      SET x = x + 1;
+    END WHILE;
+    SET x = 200;
+    WHILE x < 215 DO
+      INSERT INTO auth VALUES (userid, zoneid, x);
+      SET x = x + 1;
+    END WHILE;
+    SET x = 500;
+    WHILE x < 519 DO
+      INSERT INTO auth VALUES (userid, zoneid, x);
+      SET x = x + 1;
+    END WHILE;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `adduser` (IN `name1` VARCHAR(64), IN `passwd1` VARCHAR(64), IN `prompt1` VARCHAR(32), IN `answer1` VARCHAR(32), IN `truename1` VARCHAR(32), IN `idnumber1` VARCHAR(32), IN `email1` VARCHAR(32), IN `mobilenumber1` VARCHAR(32), IN `province1` VARCHAR(32), IN `city1` VARCHAR(32), IN `phonenumber1` VARCHAR(32), IN `address1` VARCHAR(64), IN `postalcode1` VARCHAR(8), IN `gender1` INT(8), IN `birthday1` VARCHAR(32), IN `qq1` VARCHAR(32), IN `passwd21` VARCHAR(64), IN `chuyenkhoan` INT(55), IN `napthe` INT(55), IN `hotro1` INT(55), IN `hotro2` INT(55), IN `thedangky` INT(55))   BEGIN
+  DECLARE idtemp INTEGER;
+    SELECT IFNULL(MAX(id), 16) + 16 INTO idtemp FROM users;
+    INSERT INTO users (id,name,passwd,prompt,answer,truename,idnumber,email,mobilenumber,province,city,phonenumber,address,postalcode,gender,birthday,creatime,qq,passwd2,chuyenkhoan,napthe,hotro1,hotro2,thedangky) VALUES( idtemp, name1, passwd1, prompt1, answer1, truename1, idnumber1, email1, mobilenumber1, province1, city1, phonenumber1, address1, postalcode1, gender1, birthday1, now(), qq1, passwd21,chuyenkhoan,napthe,hotro1,hotro2,thedangky );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `adduserpoint` (IN `uid1` INTEGER, IN `aid1` INTEGER, IN `time1` INTEGER)   BEGIN
+ DECLARE rowcount INTEGER;
+ START TRANSACTION;
+    UPDATE point SET time = IFNULL(time,0) + time1 WHERE uid1 = uid AND aid1 = aid;
+    SET rowcount = ROW_COUNT();
+    IF rowcount = 0 THEN
+      INSERT INTO point (uid,aid,time) VALUES (uid1,aid1,time1);
+    END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUserPriv` (IN `userid` INTEGER, IN `zoneid` INTEGER, IN `rid` INTEGER)   BEGIN
+  START TRANSACTION;
+    INSERT INTO auth VALUES(userid, zoneid, rid);
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addvipuser` (IN `name1` VARCHAR(55), IN `xu1` VARCHAR(55), IN `xuev1` VARCHAR(55), IN `diemvip1` VARCHAR(55), IN `code11` VARCHAR(255), IN `code21` VARCHAR(255), IN `code31` VARCHAR(255), IN `vip11` VARCHAR(55), IN `vip21` VARCHAR(55), IN `vip31` VARCHAR(55), IN `vip41` VARCHAR(55), IN `vip51` VARCHAR(55), IN `vip61` VARCHAR(55), IN `vip71` VARCHAR(55), IN `vip81` VARCHAR(55), IN `chuyenkhoan1` VARCHAR(55), IN `napthe1` VARCHAR(55), IN `hotro33` VARCHAR(55), IN `hotro11` VARCHAR(55), IN `hotro21` VARCHAR(55), IN `khac11` VARCHAR(55), IN `code41` VARCHAR(55), IN `code51` VARCHAR(55), IN `code61` VARCHAR(55), IN `code71` VARCHAR(55))   BEGIN
+  DECLARE idtemp INTEGER;
+    SELECT IFNULL(MAX(id), 16) + 16 INTO idtemp FROM vipuser;
+    INSERT INTO vipuser(id,name,xu,xuev,diemvip,code1,code2,code3,vip1,vip2,vip3,vip4,vip5,vip6,vip7,vip8,chuyenkhoan,napthe,hotro,hotro1,hotro2,khac,code4,code5,code6,code7) VALUES(idtemp,name1,xu1,xuev1,diemvip1,code11,code21,code31,vip11,vip21,vip31,vip41,vip51,vip61,vip71,vip81,chuyenkhoan1,napthe1,hotro33,hotro11, hotro21,khac11,code41,code51,code61,code71 );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `changePasswd` (IN `name1` VARCHAR(64), IN `passwd1` VARCHAR(64))   BEGIN
+  START TRANSACTION;
+    UPDATE users SET passwd = passwd1 WHERE name = name1;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `changePasswd2` (IN `name1` VARCHAR(64), IN `passwd21` VARCHAR(64))   BEGIN
+  START TRANSACTION;
+    UPDATE users SET passwd2 = passwd21 WHERE name = name1;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clearonlinerecords` (IN `zoneid1` INTEGER, IN `aid1` INTEGER)   BEGIN
+  START TRANSACTION;
+    UPDATE point SET zoneid = NULL, zonelocalid = NULL WHERE aid = aid1 AND zoneid = zoneid1;
+    DELETE FROM online;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteTimeoutForbid` (IN `userid1` INTEGER)   BEGIN
+  START TRANSACTION;
+    DELETE FROM forbid WHERE userid = userid1 AND timestampdiff(second, ctime, now()) > forbid_time;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delUserPriv` (IN `userid1` INTEGER, IN `zoneid1` INTEGER, IN `rid1` INTEGER, IN `deltype1` INTEGER)   BEGIN
+START TRANSACTION;
+  IF deltype1 = 0 THEN
+    DELETE FROM auth WHERE userid = userid1 AND zoneid = zoneid1 AND rid = rid1;
+  ELSE
+    IF deltype1 = 1 THEN
+      DELETE FROM auth WHERE userid = userid1 AND zoneid = zoneid1;
+    ELSE
+      IF deltype1 = 2 THEN
+        DELETE FROM auth WHERE userid = userid1;
+      END IF;
+    END IF;
+  END IF;
+COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `enableiplimit` (IN `uid1` INTEGER, IN `enable1` CHAR(1))   BEGIN
+  DECLARE rowcount INTEGER;
+  START TRANSACTION;
+  UPDATE iplimit SET enable=enable1 WHERE uid=uid1;
+  SET rowcount = ROW_COUNT();
+  IF rowcount = 0 THEN
+    INSERT INTO iplimit (uid,enable) VALUES (uid1,enable1);
+  END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `lockuser` (IN `uid1` INTEGER, IN `lockstatus1` CHAR(1))   BEGIN
+  DECLARE rowcount INTEGER;
+  START TRANSACTION;
+  UPDATE iplimit SET lockstatus=lockstatus1 WHERE uid=uid1;
+  SET rowcount = ROW_COUNT();
+  IF rowcount = 0 THEN
+    INSERT INTO iplimit (uid,lockstatus,enable) VALUES (uid1,lockstatus1,'t');
+  END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recordoffline` (IN `uid1` INTEGER, IN `aid1` INTEGER, INOUT `zoneid1` INTEGER, INOUT `zonelocalid1` INTEGER, INOUT `overwrite1` INTEGER)   BEGIN
+  DECLARE rowcount INTEGER;
+  START TRANSACTION;
+    UPDATE point SET zoneid = NULL, zonelocalid = NULL WHERE uid = uid1 AND aid = aid1 AND zoneid = zoneid1;
+    DELETE FROM online WHERE ID = uid1;
+    SET rowcount = ROW_COUNT();
+    IF overwrite1 = rowcount THEN
+      SELECT zoneid, zonelocalid INTO zoneid1, zonelocalid1 FROM point WHERE uid = uid1 AND aid = aid1;
+    END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recordonline` (IN `uid1` INTEGER, IN `aid1` INTEGER, INOUT `zoneid1` INTEGER, INOUT `zonelocalid1` INTEGER, INOUT `overwrite` INTEGER)   BEGIN
+  DECLARE tmp_zoneid INTEGER;
+  DECLARE tmp_zonelocalid INTEGER;
+  DECLARE rowcount INTEGER;
+  START TRANSACTION;
+    SELECT SQL_CALC_FOUND_ROWS zoneid, zonelocalid INTO tmp_zoneid, tmp_zonelocalid FROM point WHERE uid = uid1 and aid = aid1;
+    INSERT INTO online (ID) VALUES (uid1);
+    SET rowcount = FOUND_ROWS();
+    IF rowcount = 0 THEN
+      INSERT INTO point (uid, aid, time, zoneid, zonelocalid, lastlogin) VALUES (uid1, aid1, 0, zoneid1, zonelocalid1, now());
+    ELSE IF tmp_zoneid IS NULL OR overwrite = 1 THEN
+      UPDATE point SET zoneid = zoneid1, zonelocalid = zonelocalid1, lastlogin = now() WHERE uid = uid1 AND aid = aid1;
+    END IF;
+    END IF;
+    IF tmp_zoneid IS NULL THEN
+      SET overwrite = 1;
+    ELSE
+      SET zoneid1 = tmp_zoneid;
+      SET zonelocalid1 = tmp_zonelocalid;
+    END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `remaintime` (IN `uid1` INTEGER, IN `aid1` INTEGER, OUT `remain` INTEGER, OUT `freetimeleft` INTEGER)   BEGIN
+  DECLARE enddate1 DATETIME;
+  DECLARE now1 DATETIME;
+  DECLARE rowcount INTEGER;
+  START TRANSACTION;
+  SET now1 = now();
+  IF aid1 = 0 THEN
+    SET remain = 86313600;
+    SET enddate1 = date_add(now1, INTERVAL '30' DAY);
+  ELSE
+    SELECT time, IFNULL(enddate, now1) INTO remain, enddate1 FROM point WHERE uid = uid1 AND aid = aid1;
+    SET rowcount = ROW_COUNT();
+    IF rowcount = 0 THEN
+      SET remain = 0;
+      INSERT INTO point (uid,aid,time) VALUES (uid1, aid1, remain);
+    END IF;
+  END IF;
+  SET freetimeleft = 0;
+  IF enddate1 > now1 THEN
+    SET freetimeleft = timestampdiff(second, now1, enddate1);
+  END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setiplimit` (IN `uid1` INTEGER, IN `ipaddr11` INTEGER, IN `ipmask11` VARCHAR(2), IN `ipaddr21` INTEGER, IN `ipmask21` VARCHAR(2), IN `ipaddr31` INTEGER, IN `ipmask31` VARCHAR(2), IN `enable1` CHAR(1))   BEGIN
+  DECLARE rowcount INTEGER;
+  START TRANSACTION;
+    UPDATE iplimit SET ipaddr1 = ipaddr11, ipmask1 = ipmask11, ipaddr2 = ipaddr21, ipmask2 = ipmask21, ipaddr3 = ipaddr31, ipmask3 = ipmask31 WHERE uid = uid1;
+    SET rowcount = ROW_COUNT();
+    IF rowcount = 0 THEN
+      INSERT INTO iplimit (uid, ipaddr1, ipmask1, ipaddr2, ipmask2, ipaddr3, ipmask3, enable1) VALUES (uid1, ipaddr11, ipmask11, ipaddr21, ipmask21, ipaddr31, ipmask31,'t');
+    END IF;
+  COMMIT;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usecash` (IN `userid1` INTEGER, IN `zoneid1` INTEGER, IN `sn1` INTEGER, IN `aid1` INTEGER, IN `point1` INTEGER, IN `cash1` INTEGER, IN `status1` INTEGER, OUT `error` INTEGER)   BEGIN
+DECLARE sn_old INTEGER;
+DECLARE aid_old INTEGER;
+DECLARE point_old INTEGER;
+DECLARE cash_old INTEGER;
+DECLARE status_old INTEGER;
+DECLARE createtime_old DATETIME;
+DECLARE time_old INTEGER;
+DECLARE need_restore INTEGER;
+DECLARE exists1 INTEGER;
+DECLARE rowcount INTEGER;
+START TRANSACTION;
+  SET error = 0;
+  SET need_restore = 0;
+  SELECT SQL_CALC_FOUND_ROWS sn, aid, point, cash, status, creatime INTO sn_old, aid_old, point_old, cash_old, status_old, createtime_old FROM usecashnow WHERE userid = userid1 AND zoneid = zoneid1 AND sn >= 0;
+  SET rowcount = FOUND_ROWS();
+  IF rowcount = 1 THEN
+    SET exists1 = 1;
+  ELSE
+    SET exists1 = 0;
+  END IF;
+  IF status1 = 0 THEN
+    IF exists1 = 0 THEN
+      SELECT aid, point INTO aid1, point1 FROM usecashnow WHERE userid = userid1 AND zoneid = zoneid1 AND sn = sn1;
+      SET point1 = IFNULL(point1,0);
+      UPDATE point SET time = time-point1 WHERE uid = userid1 AND aid = aid1 AND time >= point1;
+      SET rowcount = ROW_COUNT();
+      IF rowcount = 1 THEN
+        UPDATE usecashnow SET sn = 0, status = 1 WHERE userid = userid1 AND zoneid = zoneid1 AND sn = sn1;
+      ELSE
+        SET error = -8;
+      END IF;
+    END IF;
+  ELSE
+    IF status1 = 1 THEN
+      IF exists1 = 0 THEN
+        UPDATE point SET time = time-point1 WHERE uid = userid1 AND aid = aid1 AND time >= point1;
+        SET rowcount = ROW_COUNT();
+        IF rowcount = 1 THEN
+          INSERT INTO usecashnow (userid, zoneid, sn, aid, point, cash, status, creatime) VALUES (userid1, zoneid1, sn1, aid1, point1, cash1, status1, now());
+        ELSE
+          INSERT INTO usecashnow SELECT userid1, zoneid1, IFNULL(min(sn),0)-1, aid1, point1, cash1, 0, now() FROM usecashnow WHERE userid = userid1 AND zoneid = zoneid1 AND 0 >= sn;
+          SET error = -8;
+        END IF;
+      ELSE
+        INSERT INTO usecashnow SELECT userid1, zoneid1, IFNULL(min(sn),0)-1, aid1, point1, cash1, 0, now() FROM usecashnow WHERE userid = userid1 AND zoneid = zoneid1 AND 0 >= sn;
+        SET error = -7;
+      END IF;
+    ELSE
+      IF status1 = 2 THEN
+        IF exists1 = 1 AND status_old = 1 AND sn_old = 0 THEN
+          UPDATE usecashnow SET sn = sn1, status = status1 WHERE userid = userid1 AND zoneid = zoneid1 AND sn = sn_old;
+        ELSE
+          SET error = -9;
+        END IF;
+      ELSE
+        IF status1 = 3 THEN
+           IF exists1 = 1 AND status_old = 2 THEN
+            UPDATE usecashnow SET status = status1 WHERE userid = userid1 AND zoneid = zoneid1 AND sn = sn_old;
+           ELSE
+            SET error = -10;
+            END IF;
+        ELSE
+         IF status1 = 4 THEN
+          IF exists1 = 1 THEN
+            DELETE FROM usecashnow WHERE userid = userid1 AND zoneid = zoneid1 AND sn = sn_old;
+            INSERT INTO usecashlog (userid, zoneid, sn, aid, point, cash, status, creatime, fintime) VALUES (userid1, zoneid1, sn_old, aid_old, point_old, cash_old, status1, createtime_old, now());
+          END IF;
+          IF NOT (exists1 = 1 AND status_old = 3) THEN
+            SET error = -11;
+          END IF;
+        ELSE
+          SET error = -12;
+        END IF;
+      END IF;
+    END IF;
+  END IF;
+  END IF;
+  IF need_restore = 1 THEN
+    UPDATE point SET time = time+point_old WHERE uid = userid1 AND aid = aid_old;
+    DELETE FROM usecashnow WHERE userid = userid1 AND zoneid = zoneid1 AND sn = sn_old;
+    INSERT INTO usecashlog (userid, zoneid, sn, aid, point, cash, status, creatime, fintime) VALUES (userid1, zoneid1, sn_old, aid_old, point_old, cash_old, status1, createtime_old, now());
+  END IF;
+COMMIT;
+END$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_varbintohexsubstring` (`fsetprefix` BIT, `pbinin` VARBINARY(8000), `startoffset` INT, `cbytesin` INT) RETURNS VARCHAR(4000) CHARSET latin1 READS SQL DATA BEGIN
+  DECLARE pstrout VARCHAR(4000);
+  DECLARE i int;
+  DECLARE firstnibble int;
+  DECLARE secondnibble int;
+  DECLARE tempint int;
+  DECLARE hexstring char( 16);
+  BEGIN
+    IF( pbinin IS NOT NULL) THEN
+      SET i= 0, cbytesin= CASE WHEN( cbytesin> 0) THEN cbytesin ELSE LENGTH( pbinin) END,
+         pstrout= CASE WHEN( fsetprefix= 1) THEN '0x'  ELSE ''  END,
+         hexstring= '0123456789abcdef';
+      IF((( cbytesin * 2) + 2> 4000) or( startoffset< 1)) THEN
+        RETURN NULL;
+      END IF;
+      WHILE( i< cbytesin) DO
+        SET tempint= ASCII( substring( pbinin, i + startoffset, 1));
+        SET firstnibble= TRUNCATE((tempint / 16),0);
+        SET secondnibble= tempint % 16;
+        SET pstrout= CONCAT(pstrout ,cast( substring( hexstring,( firstnibble+1), 1) AS CHAR), cast( substring( hexstring,( secondnibble+1), 1) AS CHAR));
+        SET i= i + 1;
+      END WHILE;
+      RETURN pstrout;
+    END IF;
+    RETURN NULL;
+  END;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `auth`
+-- Table structure for table `auth`
 --
 
 CREATE TABLE `auth` (
@@ -34,7 +364,7 @@ CREATE TABLE `auth` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `auth`
+-- Dumping data for table `auth`
 --
 
 INSERT INTO `auth` (`userid`, `zoneid`, `rid`) VALUES
@@ -94,7 +424,7 @@ INSERT INTO `auth` (`userid`, `zoneid`, `rid`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `base`
+-- Table structure for table `base`
 --
 
 CREATE TABLE `base` (
@@ -120,7 +450,7 @@ CREATE TABLE `base` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `base`
+-- Dumping data for table `base`
 --
 
 INSERT INTO `base` (`bid`, `version`, `akkid`, `id`, `name`, `gender`, `occupation`, `status`, `level`, `exp`, `pp`, `hp`, `mp`, `posx`, `posy`, `posz`, `pkvalue`, `worldtag`, `reputation`) VALUES
@@ -3039,7 +3369,7 @@ INSERT INTO `base` (`bid`, `version`, `akkid`, `id`, `name`, `gender`, `occupati
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `checkmagioithieu`
+-- Table structure for table `checkmagioithieu`
 --
 
 CREATE TABLE `checkmagioithieu` (
@@ -3054,7 +3384,7 @@ CREATE TABLE `checkmagioithieu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chuyenkhoan`
+-- Table structure for table `chuyenkhoan`
 --
 
 CREATE TABLE `chuyenkhoan` (
@@ -3067,7 +3397,7 @@ CREATE TABLE `chuyenkhoan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `chuyenkhoan`
+-- Dumping data for table `chuyenkhoan`
 --
 
 INSERT INTO `chuyenkhoan` (`id`, `user`, `menhgia`, `xunhan`, `time`, `trangthai`) VALUES
@@ -3914,7 +4244,7 @@ INSERT INTO `chuyenkhoan` (`id`, `user`, `menhgia`, `xunhan`, `time`, `trangthai
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ckkhac`
+-- Table structure for table `ckkhac`
 --
 
 CREATE TABLE `ckkhac` (
@@ -3927,7 +4257,7 @@ CREATE TABLE `ckkhac` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `ckkhac`
+-- Dumping data for table `ckkhac`
 --
 
 INSERT INTO `ckkhac` (`id`, `users`, `soxuck`, `noidung`, `xunhan`, `thoigian`) VALUES
@@ -3942,7 +4272,7 @@ INSERT INTO `ckkhac` (`id`, `users`, `soxuck`, `noidung`, `xunhan`, `thoigian`) 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `codenapthe`
+-- Table structure for table `codenapthe`
 --
 
 CREATE TABLE `codenapthe` (
@@ -3959,7 +4289,7 @@ CREATE TABLE `codenapthe` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cuahang`
+-- Table structure for table `cuahang`
 --
 
 CREATE TABLE `cuahang` (
@@ -3980,7 +4310,7 @@ CREATE TABLE `cuahang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `cuahang`
+-- Dumping data for table `cuahang`
 --
 
 INSERT INTO `cuahang` (`id`, `idvp`, `mavp`, `tenvp`, `gia`, `tonkho`, `daban`, `gioihan`, `ngaybatdau`, `ngayketthuc`, `ngaynhap`, `trangthai`, `ghichu`, `hinhanh`) VALUES
@@ -3994,7 +4324,7 @@ INSERT INTO `cuahang` (`id`, `idvp`, `mavp`, `tenvp`, `gia`, `tonkho`, `daban`, 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `denbu`
+-- Table structure for table `denbu`
 --
 
 CREATE TABLE `denbu` (
@@ -4012,7 +4342,7 @@ CREATE TABLE `denbu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `denbu`
+-- Dumping data for table `denbu`
 --
 
 INSERT INTO `denbu` (`stt`, `tkbancu`, `tkbanmoi`, `xudenbu`, `diemvip`, `hotrolan1`, `hotrolan2`, `solandenbu`, `maychu`, `thoigian`, `ghichu`) VALUES
@@ -4189,7 +4519,7 @@ INSERT INTO `denbu` (`stt`, `tkbancu`, `tkbanmoi`, `xudenbu`, `diemvip`, `hotrol
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `doiclass`
+-- Table structure for table `doiclass`
 --
 
 CREATE TABLE `doiclass` (
@@ -4210,7 +4540,7 @@ CREATE TABLE `doiclass` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `doiclass`
+-- Dumping data for table `doiclass`
 --
 
 INSERT INTO `doiclass` (`id`, `user`, `idgoc`, `tennv`, `tamgioi`, `classtruoc`, `classsau`, `goichuyen`, `chiphi`, `diemvip`, `xucon`, `thoigian`, `trangthai`, `ghichu`) VALUES
@@ -4309,7 +4639,7 @@ INSERT INTO `doiclass` (`id`, `user`, `idgoc`, `tennv`, `tamgioi`, `classtruoc`,
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `exchange`
+-- Table structure for table `exchange`
 --
 
 CREATE TABLE `exchange` (
@@ -4324,7 +4654,7 @@ CREATE TABLE `exchange` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `exchange`
+-- Dumping data for table `exchange`
 --
 
 INSERT INTO `exchange` (`id`, `user`, `charguid`, `amount`, `time`, `soknb`, `diemvip`, `ghichu`) VALUES
@@ -6913,7 +7243,7 @@ INSERT INTO `exchange` (`id`, `user`, `charguid`, `amount`, `time`, `soknb`, `di
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `forbid`
+-- Table structure for table `forbid`
 --
 
 CREATE TABLE `forbid` (
@@ -6928,7 +7258,7 @@ CREATE TABLE `forbid` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `giahanvip`
+-- Table structure for table `giahanvip`
 --
 
 CREATE TABLE `giahanvip` (
@@ -6944,7 +7274,7 @@ CREATE TABLE `giahanvip` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `giahanvip`
+-- Dumping data for table `giahanvip`
 --
 
 INSERT INTO `giahanvip` (`id`, `user`, `capvip`, `ngaygiahan`, `ngaytieptheo`, `thoigian`, `ghichu`, `trangthai`, `tennv`) VALUES
@@ -7133,7 +7463,7 @@ INSERT INTO `giahanvip` (`id`, `user`, `capvip`, `ngaygiahan`, `ngaytieptheo`, `
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `giaodichxu`
+-- Table structure for table `giaodichxu`
 --
 
 CREATE TABLE `giaodichxu` (
@@ -7148,7 +7478,23 @@ CREATE TABLE `giaodichxu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `iplimit`
+-- Table structure for table `giftcode`
+--
+
+CREATE TABLE `giftcode` (
+  `id` int(25) NOT NULL,
+  `user_get` int(25) NOT NULL,
+  `code` varchar(155) COLLATE utf8_unicode_ci NOT NULL,
+  `date_exp` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0: kích hoạt, 1: đã sử dụng',
+  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0:all, 1: dành cho cá nhân',
+  `loaixu` varchar(155) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `iplimit`
 --
 
 CREATE TABLE `iplimit` (
@@ -7166,7 +7512,7 @@ CREATE TABLE `iplimit` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `khovatpham`
+-- Table structure for table `khovatpham`
 --
 
 CREATE TABLE `khovatpham` (
@@ -7186,7 +7532,7 @@ CREATE TABLE `khovatpham` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `knbevent`
+-- Table structure for table `knbevent`
 --
 
 CREATE TABLE `knbevent` (
@@ -7199,7 +7545,7 @@ CREATE TABLE `knbevent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `knbevent`
+-- Dumping data for table `knbevent`
 --
 
 INSERT INTO `knbevent` (`id`, `taikhoan`, `maid`, `xuevent`, `noidung`, `thoigian`) VALUES
@@ -7943,7 +8289,7 @@ INSERT INTO `knbevent` (`id`, `taikhoan`, `maid`, `xuevent`, `noidung`, `thoigia
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `lichsucuahang`
+-- Table structure for table `lichsucuahang`
 --
 
 CREATE TABLE `lichsucuahang` (
@@ -7965,7 +8311,7 @@ CREATE TABLE `lichsucuahang` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `magioithieu`
+-- Table structure for table `magioithieu`
 --
 
 CREATE TABLE `magioithieu` (
@@ -7978,7 +8324,7 @@ CREATE TABLE `magioithieu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `matanthu`
+-- Table structure for table `matanthu`
 --
 
 CREATE TABLE `matanthu` (
@@ -7990,7 +8336,7 @@ CREATE TABLE `matanthu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `matanthu`
+-- Dumping data for table `matanthu`
 --
 
 INSERT INTO `matanthu` (`MaTT`, `TenMa`, `TrangThai`, `taikhoannhan`, `matk`) VALUES
@@ -9938,7 +10284,7 @@ INSERT INTO `matanthu` (`MaTT`, `TenMa`, `TrangThai`, `taikhoannhan`, `matk`) VA
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `online`
+-- Table structure for table `online`
 --
 
 CREATE TABLE `online` (
@@ -9946,7 +10292,7 @@ CREATE TABLE `online` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `online`
+-- Dumping data for table `online`
 --
 
 INSERT INTO `online` (`ID`) VALUES
@@ -10039,7 +10385,7 @@ INSERT INTO `online` (`ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `pay`
+-- Table structure for table `pay`
 --
 
 CREATE TABLE `pay` (
@@ -10057,7 +10403,7 @@ CREATE TABLE `pay` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `pay`
+-- Dumping data for table `pay`
 --
 
 INSERT INTO `pay` (`id`, `user`, `loaithe`, `seri`, `mathe`, `menhgia`, `soluong`, `pay_time`, `trangthai`, `khuyenmai`, `request_id`) VALUES
@@ -10165,7 +10511,7 @@ INSERT INTO `pay` (`id`, `user`, `loaithe`, `seri`, `mathe`, `menhgia`, `soluong
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `point`
+-- Table structure for table `point`
 --
 
 CREATE TABLE `point` (
@@ -10180,7 +10526,7 @@ CREATE TABLE `point` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `point`
+-- Dumping data for table `point`
 --
 
 INSERT INTO `point` (`uid`, `aid`, `time`, `zoneid`, `zonelocalid`, `accountstart`, `lastlogin`, `enddate`) VALUES
@@ -11830,7 +12176,7 @@ INSERT INTO `point` (`uid`, `aid`, `time`, `zoneid`, `zonelocalid`, `accountstar
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `request_token`
+-- Table structure for table `request_token`
 --
 
 CREATE TABLE `request_token` (
@@ -11841,17 +12187,18 @@ CREATE TABLE `request_token` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `request_token`
+-- Dumping data for table `request_token`
 --
 
 INSERT INTO `request_token` (`id`, `user_request_id`, `token`, `time`) VALUES
-(27, 48, '590466', '2022-06-20 18:22:23'),
-(28, 30944, '976102', '2022-06-21 14:31:11');
+(27, 48, '713058', '2022-06-22 16:45:45'),
+(30, 30944, '676499', '2022-06-22 13:58:00'),
+(31, 30976, '740485', '2022-06-28 00:01:51');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `server`
+-- Table structure for table `server`
 --
 
 CREATE TABLE `server` (
@@ -11861,7 +12208,7 @@ CREATE TABLE `server` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `server`
+-- Dumping data for table `server`
 --
 
 INSERT INTO `server` (`id`, `name`, `host`) VALUES
@@ -11870,29 +12217,7 @@ INSERT INTO `server` (`id`, `name`, `host`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `test`
---
-
-CREATE TABLE `test` (
-  `id` int(5) NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `percent` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `test`
---
-
-INSERT INTO `test` (`id`, `name`, `percent`) VALUES
-(1, 'Giải nhất', 70),
-(2, 'Giải nhì ', 10),
-(3, 'Giải ba', 80),
-(4, 'Giải đặc biệt', 90);
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `tonhieu`
+-- Table structure for table `tonhieu`
 --
 
 CREATE TABLE `tonhieu` (
@@ -11906,7 +12231,7 @@ CREATE TABLE `tonhieu` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `transfersxu`
+-- Table structure for table `transfersxu`
 --
 
 CREATE TABLE `transfersxu` (
@@ -11923,7 +12248,7 @@ CREATE TABLE `transfersxu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `transfersxu`
+-- Dumping data for table `transfersxu`
 --
 
 INSERT INTO `transfersxu` (`id`, `id_user_get`, `id_user_send`, `soluong`, `thucnhan`, `sodu_user_send`, `sodu_user_get`, `loai_xu`, `noidung`, `time`) VALUES
@@ -11932,7 +12257,7 @@ INSERT INTO `transfersxu` (`id`, `id_user_get`, `id_user_send`, `soluong`, `thuc
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `usecashlog`
+-- Table structure for table `usecashlog`
 --
 
 CREATE TABLE `usecashlog` (
@@ -11948,7 +12273,7 @@ CREATE TABLE `usecashlog` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `usecashlog`
+-- Dumping data for table `usecashlog`
 --
 
 INSERT INTO `usecashlog` (`userid`, `zoneid`, `sn`, `aid`, `point`, `cash`, `status`, `creatime`, `fintime`) VALUES
@@ -14537,7 +14862,7 @@ INSERT INTO `usecashlog` (`userid`, `zoneid`, `sn`, `aid`, `point`, `cash`, `sta
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `usecashnow`
+-- Table structure for table `usecashnow`
 --
 
 CREATE TABLE `usecashnow` (
@@ -14554,7 +14879,7 @@ CREATE TABLE `usecashnow` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -14585,12 +14910,12 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`ID`, `name`, `passwd`, `Prompt`, `answer`, `truename`, `idnumber`, `email`, `mobilenumber`, `province`, `city`, `phonenumber`, `address`, `postalcode`, `gender`, `birthday`, `creatime`, `qq`, `passwd2`, `chuyenkhoan`, `napthe`, `hotro1`, `hotro2`, `thedangky`) VALUES
 (32, 'demo1', '%òž>®<36Œì}EÞ', '0', '0', '0', 'thientu', 'demo1@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:35:19', '0', '171.234.9.37', 0, 0, 0, 0, '0'),
-(48, 'vanquy', 'ú’ÛgP\nÅ=ÑÉ!ö”æ', '0', '4297f44b13955235245b2497399d7a93', '0', 'thientu', 'nguyendaonhumai293@gmail.com', '0365820182', '3', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:36:24', '0', '127.0.0.1', 0, 0, 0, 0, '127.0.0.1'),
+(48, 'vanquy', 'ú’ÛgP\nÅ=ÑÉ!ö”æ', '0', '4297f44b13955235245b2497399d7a93', '0', 'thientu', 'nguyendaonhumai293@gmail.com', '0365820182', '3', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:36:24', '0', '115.74.46.65', 0, 0, 0, 0, '115.74.46.65'),
 (64, 'demo2', 'JcÜÜ1®²ªër±*‰', '0', '0', '0', 'thientu', 'demo2@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:36:59', '0', '171.234.9.37', 0, 0, 0, 0, '171.234.9.37'),
 (80, 'acon12', 'ÚJY_™<<µãsUSd', '0', '0', '0', 'thientu', 'acon12@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-08 09:37:38', '0', '171.234.9.37', 0, 0, 0, 0, '116.98.188.114'),
 (96, 'demo3', 'EA#„QlU\rG+È6”', '0', '0', '0', 'thientu', 'demo3@gmail.com', '0365820182', '0', '0', '0', 0, '111222', 0, '0000-00-00 00:00:00', '2022-02-09 16:42:21', '0', '171.234.9.37', 0, 0, 0, 0, '0'),
@@ -16529,12 +16854,13 @@ INSERT INTO `users` (`ID`, `name`, `passwd`, `Prompt`, `answer`, `truename`, `id
 (30896, 'langle0209', 'eºÁðÈÛÊ=åƒP6€,', '0', '0', '0', 'hoangduy', 'nhozbaby@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:24:17', '0', '126.48.255.120', 0, 0, 0, 0, '126.48.255.120'),
 (30912, 'langle01', '¯Œ¼½L¼kÁËŽü7Ä', '0', '0', '0', 'hoangduy', 'nhozb@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:24:52', '0', '126.48.255.120', 0, 0, 0, 0, '0'),
 (30928, 'langle1', '²EQËÇÀ½hÉÉÍÅ\n´0', '0', '0', '0', 'hoangduy', 'nhozba@gmail.com', '0975940776', '0', '0', '0', 0, '111111', 0, '0000-00-00 00:00:00', '2022-05-25 19:25:19', '0', '126.48.255.120', 0, 0, 0, 0, '0'),
-(30944, 'quyendz1509', '0xf8c3e402a632a782c61c34d6a67539c3', '0', '69ae8f31b482397e27f8121fb6ad605c', '0', '123123', 'quyendz1509@gmail.com', '0915606449', '0', '0', '0', 0, '65170', 0, NULL, '2022-06-20 01:18:00', '0', '::1', 0, 0, 0, 0, '::1');
+(30976, 'quyendz1509', '0xf8c3e402a632a782c61c34d6a67539c3', '0', '0', '0', '123123', 'quyensb1509@gmail.com', '0915333222', '0', '0', '0', 0, '56792', 0, NULL, '2022-06-22 04:48:42', '0', '115.74.46.65', 0, 0, 0, 0, '115.74.46.65'),
+(30960, 'nguoidungmoi', '0x0f90bdbe4b5951ef1fc875225b2d6f60', '0', '4297f44b13955235245b2497399d7a93', '0', '123123', 'nguoinao@gmail.cm', '0933112211', '0', '0', '0', 0, '92753', 0, NULL, '2022-06-22 01:45:20', '0', '::1', 0, 0, 0, 0, '::1');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `vipuser`
+-- Table structure for table `vipuser`
 --
 
 CREATE TABLE `vipuser` (
@@ -16560,17 +16886,17 @@ CREATE TABLE `vipuser` (
   `hotro1` varchar(55) DEFAULT NULL,
   `hotro2` varchar(55) DEFAULT NULL,
   `khac` varchar(55) DEFAULT NULL,
-  `code4` varchar(55) NOT NULL,
+  `xuhotro` varchar(55) NOT NULL,
   `code5` varchar(55) NOT NULL,
   `code6` varchar(55) NOT NULL,
   `code7` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Đang đổ dữ liệu cho bảng `vipuser`
+-- Dumping data for table `vipuser`
 --
 
-INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
+INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `xuhotro`, `code5`, `code6`, `code7`) VALUES
 (32, 'demo1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (48, 'vanquy', '820950', '200000', '3840', '0', '3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '663000', '0', '0', '0', '0', '0', '300000', '0', '0', '0'),
 (64, 'demo2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '350000', '0', '0', '0'),
@@ -16921,7 +17247,7 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (5584, 'kyotsuke', '0', '0', '80', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (5600, 'longmoon', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (5616, 'goodgame', '50000', '0', '1450', '1', '0', '0', '1', '1', '1', '0', '0', '0', '0', '0', '600000', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
+INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `xuhotro`, `code5`, `code6`, `code7`) VALUES
 (5632, 'thienkiem2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (5648, 'samhanoi12', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (5664, 'trongluan', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
@@ -17276,7 +17602,7 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (11248, 'memory1', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (11264, 'memory2', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (11280, 'memory3', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
+INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `xuhotro`, `code5`, `code6`, `code7`) VALUES
 (11296, 'memory4', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (11312, 'bin10', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (11328, 'bin11', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
@@ -17633,7 +17959,7 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (16944, 'luan25', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (16960, 'luan26', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (16976, 'luan27', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
+INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `xuhotro`, `code5`, `code6`, `code7`) VALUES
 (16992, 'luan28', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (17008, 'luan29', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (17024, 'luan', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
@@ -17986,7 +18312,7 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (22576, 'cxzcxz', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (22592, 'knightqn9209', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (22608, 'knightqn92010', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
+INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `xuhotro`, `code5`, `code6`, `code7`) VALUES
 (22624, 'phonganhanh', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (22640, 'cknhia', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (22656, 'farmgold2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
@@ -18343,7 +18669,7 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (28272, 'minhducct1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (28288, 'luansn1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (28304, 'hungryanvd', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `code4`, `code5`, `code6`, `code7`) VALUES
+INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, `code3`, `vip1`, `vip2`, `vip3`, `vip4`, `vip5`, `vip6`, `vip7`, `vip8`, `chuyenkhoan`, `napthe`, `hotro`, `hotro1`, `hotro2`, `khac`, `xuhotro`, `code5`, `code6`, `code7`) VALUES
 (28320, 'quangdung3', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (28336, 'chaosalk1992', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (28352, 'cruko90', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
@@ -18507,144 +18833,145 @@ INSERT INTO `vipuser` (`id`, `name`, `xu`, `xuev`, `diemvip`, `code1`, `code2`, 
 (30880, 'truongngaba', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (30896, 'langle0209', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
 (30912, 'langle01', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
-(30928, 'langle1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
+(30928, 'langle1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0'),
+(30976, 'quyendz1509', '0', '0', '0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '0', NULL, NULL, NULL, NULL, NULL, '0', '', '', '');
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `auth`
+-- Indexes for table `auth`
 --
 ALTER TABLE `auth`
   ADD PRIMARY KEY (`userid`,`zoneid`,`rid`);
 
 --
--- Chỉ mục cho bảng `base`
+-- Indexes for table `base`
 --
 ALTER TABLE `base`
   ADD PRIMARY KEY (`bid`);
 
 --
--- Chỉ mục cho bảng `chuyenkhoan`
+-- Indexes for table `chuyenkhoan`
 --
 ALTER TABLE `chuyenkhoan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `ckkhac`
+-- Indexes for table `ckkhac`
 --
 ALTER TABLE `ckkhac`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `cuahang`
+-- Indexes for table `cuahang`
 --
 ALTER TABLE `cuahang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `denbu`
+-- Indexes for table `denbu`
 --
 ALTER TABLE `denbu`
   ADD PRIMARY KEY (`stt`);
 
 --
--- Chỉ mục cho bảng `doiclass`
+-- Indexes for table `doiclass`
 --
 ALTER TABLE `doiclass`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `exchange`
+-- Indexes for table `exchange`
 --
 ALTER TABLE `exchange`
   ADD PRIMARY KEY (`id`),
   ADD KEY `trade_no` (`id`);
 
 --
--- Chỉ mục cho bảng `forbid`
+-- Indexes for table `forbid`
 --
 ALTER TABLE `forbid`
   ADD PRIMARY KEY (`userid`,`type`);
 
 --
--- Chỉ mục cho bảng `giahanvip`
+-- Indexes for table `giahanvip`
 --
 ALTER TABLE `giahanvip`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `iplimit`
+-- Indexes for table `giftcode`
+--
+ALTER TABLE `giftcode`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `iplimit`
 --
 ALTER TABLE `iplimit`
   ADD PRIMARY KEY (`uid`);
 
 --
--- Chỉ mục cho bảng `knbevent`
+-- Indexes for table `knbevent`
 --
 ALTER TABLE `knbevent`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `lichsucuahang`
+-- Indexes for table `lichsucuahang`
 --
 ALTER TABLE `lichsucuahang`
   ADD PRIMARY KEY (`stt`);
 
 --
--- Chỉ mục cho bảng `pay`
+-- Indexes for table `pay`
 --
 ALTER TABLE `pay`
   ADD PRIMARY KEY (`id`),
   ADD KEY `trade_no` (`id`);
 
 --
--- Chỉ mục cho bảng `point`
+-- Indexes for table `point`
 --
 ALTER TABLE `point`
   ADD PRIMARY KEY (`uid`,`aid`),
   ADD KEY `IX_point_aidzoneid` (`aid`,`zoneid`);
 
 --
--- Chỉ mục cho bảng `request_token`
+-- Indexes for table `request_token`
 --
 ALTER TABLE `request_token`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `server`
+-- Indexes for table `server`
 --
 ALTER TABLE `server`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `test`
---
-ALTER TABLE `test`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `tonhieu`
+-- Indexes for table `tonhieu`
 --
 ALTER TABLE `tonhieu`
   ADD PRIMARY KEY (`stt`);
 
 --
--- Chỉ mục cho bảng `transfersxu`
+-- Indexes for table `transfersxu`
 --
 ALTER TABLE `transfersxu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `usecashlog`
+-- Indexes for table `usecashlog`
 --
 ALTER TABLE `usecashlog`
   ADD KEY `IX_usecashlog_creatime` (`creatime`),
   ADD KEY `IX_usecashlog_uzs` (`userid`,`zoneid`,`sn`);
 
 --
--- Chỉ mục cho bảng `usecashnow`
+-- Indexes for table `usecashnow`
 --
 ALTER TABLE `usecashnow`
   ADD PRIMARY KEY (`userid`,`zoneid`,`sn`),
@@ -18652,7 +18979,7 @@ ALTER TABLE `usecashnow`
   ADD KEY `IX_usecashnow_status` (`status`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`ID`),
@@ -18660,107 +18987,107 @@ ALTER TABLE `users`
   ADD KEY `IX_users_creatime` (`creatime`);
 
 --
--- Chỉ mục cho bảng `vipuser`
+-- Indexes for table `vipuser`
 --
 ALTER TABLE `vipuser`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `base`
+-- AUTO_INCREMENT for table `base`
 --
 ALTER TABLE `base`
   MODIFY `bid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2905;
 
 --
--- AUTO_INCREMENT cho bảng `chuyenkhoan`
+-- AUTO_INCREMENT for table `chuyenkhoan`
 --
 ALTER TABLE `chuyenkhoan`
   MODIFY `id` int(55) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8421;
 
 --
--- AUTO_INCREMENT cho bảng `ckkhac`
+-- AUTO_INCREMENT for table `ckkhac`
 --
 ALTER TABLE `ckkhac`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT cho bảng `cuahang`
+-- AUTO_INCREMENT for table `cuahang`
 --
 ALTER TABLE `cuahang`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT cho bảng `denbu`
+-- AUTO_INCREMENT for table `denbu`
 --
 ALTER TABLE `denbu`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=545;
 
 --
--- AUTO_INCREMENT cho bảng `doiclass`
+-- AUTO_INCREMENT for table `doiclass`
 --
 ALTER TABLE `doiclass`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
--- AUTO_INCREMENT cho bảng `exchange`
+-- AUTO_INCREMENT for table `exchange`
 --
 ALTER TABLE `exchange`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19420;
 
 --
--- AUTO_INCREMENT cho bảng `giahanvip`
+-- AUTO_INCREMENT for table `giahanvip`
 --
 ALTER TABLE `giahanvip`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=871;
 
 --
--- AUTO_INCREMENT cho bảng `knbevent`
+-- AUTO_INCREMENT for table `giftcode`
+--
+ALTER TABLE `giftcode`
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `knbevent`
 --
 ALTER TABLE `knbevent`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1894;
 
 --
--- AUTO_INCREMENT cho bảng `lichsucuahang`
+-- AUTO_INCREMENT for table `lichsucuahang`
 --
 ALTER TABLE `lichsucuahang`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1133;
 
 --
--- AUTO_INCREMENT cho bảng `pay`
+-- AUTO_INCREMENT for table `pay`
 --
 ALTER TABLE `pay`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
--- AUTO_INCREMENT cho bảng `request_token`
+-- AUTO_INCREMENT for table `request_token`
 --
 ALTER TABLE `request_token`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
--- AUTO_INCREMENT cho bảng `server`
+-- AUTO_INCREMENT for table `server`
 --
 ALTER TABLE `server`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `test`
---
-ALTER TABLE `test`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT cho bảng `tonhieu`
+-- AUTO_INCREMENT for table `tonhieu`
 --
 ALTER TABLE `tonhieu`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `transfersxu`
+-- AUTO_INCREMENT for table `transfersxu`
 --
 ALTER TABLE `transfersxu`
   MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
