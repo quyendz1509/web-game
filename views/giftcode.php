@@ -9,12 +9,12 @@
 				<label for="">Nhập Giftcode</label>
 				<div class="input-group custom-have-otp box-valid">
 					<input type="number" name="otpPWD" class="form-control" id="input-email" placeholder="Gồm 6 chữ số">
-					<button class="btn-cus btn-success" id="button-get-token" type="button">Lấy mã xác thực</button>
+					<button class="btn-cus btn-success" type="button">Nhận ngay</button>
 				</div>
 			</div>
 			
 			<div class="col-sm-12 mb-3">
-				<button class="btn-cus btn-danger">Nhận Giftcode</button>
+				<button class="btn-cus btn-danger"  id="button-get-token">Lấy mã xác nhận</button>
 			</div>
 
 			<div class="col-sm-12">
