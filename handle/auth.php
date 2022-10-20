@@ -49,7 +49,7 @@ if (isset($_POST['web_token']) && $_POST['web_token']) {
 
 					$erro = array( 'status' => -99, 'sms' => 'Vui lòng xác nhận captcha');
 
-				} 
+				}
 				else if ($username == '' || $password == '' || $email == '' || $phone == '' || $gender == '') {
 
 					$json  = array('status' => -99, 'sms' => 'Không được bỏ trống thông tin' );

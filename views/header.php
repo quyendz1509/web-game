@@ -33,6 +33,7 @@
 
 
 	<script src="/public/js/script.js"></script>
+
 	<!-- JS CODE -->
 </head>
 <body data-token="<?= $_AUTH_TOKEN ?>">

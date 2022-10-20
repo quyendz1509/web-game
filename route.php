@@ -10,7 +10,7 @@ if (isset($_GET['ctrl']) && $_GET['ctrl']) {
 	}
 }else{
 
-	if (isset($_COOKIE['id'])) {
+	if (isset($_COOKIE['id'])){
 			// code...
 		require 'controllers/homeController.php';
 	}else{
