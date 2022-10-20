@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule ^routing$ index.php [L]
+RewriteRule ^xuly/(.*)$ handle/$1 [L]
+RewriteRule ^trans/(.*)$ loads/lichsu-doixu.php?id=$1 [L]
